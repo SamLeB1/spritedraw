@@ -15,22 +15,20 @@ export default function BtnEdit({
   onHoverOpen,
   onClose,
 }: BtnEditProps) {
-  const {
-    showSelectionPreview,
-    undoHistory,
-    redoHistory,
-    clipboard,
-    getLayer,
-    undo,
-    redo,
-    cut,
-    copy,
-    paste,
-    clearEdit,
-    rotateEdit,
-    flipEdit,
-    transformEdit,
-  } = useEditorStore();
+  const showSelectionPreview = useEditorStore((s) => s.showSelectionPreview);
+  const undoHistory = useEditorStore((s) => s.undoHistory);
+  const redoHistory = useEditorStore((s) => s.redoHistory);
+  const clipboard = useEditorStore((s) => s.clipboard);
+  const getLayer = useEditorStore((s) => s.getLayer);
+  const undo = useEditorStore((s) => s.undo);
+  const redo = useEditorStore((s) => s.redo);
+  const cut = useEditorStore((s) => s.cut);
+  const copy = useEditorStore((s) => s.copy);
+  const paste = useEditorStore((s) => s.paste);
+  const clearEdit = useEditorStore((s) => s.clearEdit);
+  const rotateEdit = useEditorStore((s) => s.rotateEdit);
+  const flipEdit = useEditorStore((s) => s.flipEdit);
+  const transformEdit = useEditorStore((s) => s.transformEdit);
   const [isRotateOpen, setIsRotateOpen] = useState(false);
 
   const layer = getLayer();

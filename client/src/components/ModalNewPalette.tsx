@@ -8,7 +8,7 @@ import { extractColorsFromPixelData } from "../utils/colorExtractor";
 const DEFAULT_COLOR_PICKER_VALUE = "#000000";
 
 export default function ModalNewPalette() {
-  const { addPalette } = usePaletteStore();
+  const addPalette = usePaletteStore((s) => s.addPalette);
   const [name, setName] = useState("");
   const [colors, setColors] = useState<string[]>([]);
   const [container, setContainer] = useState<HTMLDialogElement | null>(null);

@@ -2,7 +2,8 @@ import Tooltip from "./Tooltip";
 import { useEditorStore } from "../store/editorStore";
 
 export default function SelectToolOptions() {
-  const { selectionMode, setSelectionMode } = useEditorStore();
+  const selectionMode = useEditorStore((s) => s.selectionMode);
+  const setSelectionMode = useEditorStore((s) => s.setSelectionMode);
 
   function handleChangeSelectionMode(mode: "rectangular" | "lasso" | "wand") {
     if (selectionMode !== mode) setSelectionMode(mode);

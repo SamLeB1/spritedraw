@@ -16,13 +16,11 @@ export default function BtnSprite({
   onHoverOpen,
   onClose,
 }: BtnSpriteProps) {
-  const {
-    showSelectionPreview,
-    cropToSelection,
-    trimCanvas,
-    rotateCanvas,
-    flipCanvas,
-  } = useEditorStore();
+  const showSelectionPreview = useEditorStore((s) => s.showSelectionPreview);
+  const cropToSelection = useEditorStore((s) => s.cropToSelection);
+  const trimCanvas = useEditorStore((s) => s.trimCanvas);
+  const rotateCanvas = useEditorStore((s) => s.rotateCanvas);
+  const flipCanvas = useEditorStore((s) => s.flipCanvas);
   const [isRotateOpen, setIsRotateOpen] = useState(false);
   const cropEnabled = showSelectionPreview;
 

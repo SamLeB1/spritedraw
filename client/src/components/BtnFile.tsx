@@ -19,7 +19,9 @@ export default function BtnFile({
   onHoverOpen,
   onClose,
 }: BtnFileProps) {
-  const { importFromPxsm, importImage, exportToPxsm } = useEditorStore();
+  const importFromPxsm = useEditorStore((s) => s.importFromPxsm);
+  const importImage = useEditorStore((s) => s.importImage);
+  const exportToPxsm = useEditorStore((s) => s.exportToPxsm);
   const pxsmFileInputRef = useRef<HTMLInputElement>(null);
   const imageFileInputRef = useRef<HTMLInputElement>(null);
 

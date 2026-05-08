@@ -19,14 +19,12 @@ const BLEND_MODES: { label: string; value: BlendMode }[] = [
 export default function LayerPropertiesWindow({
   onClose,
 }: LayerPropertiesProps) {
-  const {
-    layers,
-    activeLayerId,
-    getLayer,
-    renameLayer,
-    setLayerOpacity,
-    setLayerBlendMode,
-  } = useEditorStore();
+  const layers = useEditorStore((s) => s.layers);
+  const activeLayerId = useEditorStore((s) => s.activeLayerId);
+  const getLayer = useEditorStore((s) => s.getLayer);
+  const renameLayer = useEditorStore((s) => s.renameLayer);
+  const setLayerOpacity = useEditorStore((s) => s.setLayerOpacity);
+  const setLayerBlendMode = useEditorStore((s) => s.setLayerBlendMode);
   const layer = getLayer();
   const [name, setName] = useState(layer.name);
   const [opacity, setOpacity] = useState(layer.opacity);

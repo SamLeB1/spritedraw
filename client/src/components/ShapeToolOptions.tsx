@@ -3,7 +3,10 @@ import Tooltip from "./Tooltip";
 import BrushSizeInput from "./BrushSizeInput";
 
 export default function ShapeToolOptions() {
-  const { shapeMode, shapeFill, setShapeMode, setShapeFill } = useEditorStore();
+  const shapeMode = useEditorStore((s) => s.shapeMode);
+  const shapeFill = useEditorStore((s) => s.shapeFill);
+  const setShapeMode = useEditorStore((s) => s.setShapeMode);
+  const setShapeFill = useEditorStore((s) => s.setShapeFill);
 
   function handleChangeShapeMode(mode: "rectangle" | "ellipse") {
     if (shapeMode !== mode) setShapeMode(mode);

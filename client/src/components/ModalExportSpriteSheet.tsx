@@ -7,7 +7,9 @@ type Layout = "horizontal-strip" | "vertical-strip" | "by-rows" | "by-columns";
 const MAX_FRAME_SIZE = 1024;
 
 export default function ModalExportSpriteSheet() {
-  const { frames, gridSize, exportToSpriteSheet } = useEditorStore();
+  const frames = useEditorStore((s) => s.frames);
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const exportToSpriteSheet = useEditorStore((s) => s.exportToSpriteSheet);
   const autoRowColCount = useMemo(() => {
     let rows = 1;
     let cols = 1;

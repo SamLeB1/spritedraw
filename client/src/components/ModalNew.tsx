@@ -3,7 +3,7 @@ import { useEditorStore } from "../store/editorStore";
 import { DEFAULT_GRID_SIZE, MIN_GRID_SIZE, MAX_GRID_SIZE } from "../constants";
 
 export default function ModalNew() {
-  const { newCanvas } = useEditorStore();
+  const newCanvas = useEditorStore((s) => s.newCanvas);
   const [widthInput, setWidthInput] = useState(DEFAULT_GRID_SIZE.x);
   const [heightInput, setHeightInput] = useState(DEFAULT_GRID_SIZE.y);
 

@@ -3,8 +3,13 @@ import { useEditorStore } from "../store/editorStore";
 import useCanvasZoom from "./useCanvasZoom";
 
 export default function useKeyboardShortcuts() {
-  const { selectTool, undo, redo, cut, copy, paste, deleteSelection } =
-    useEditorStore();
+  const selectTool = useEditorStore((s) => s.selectTool);
+  const undo = useEditorStore((s) => s.undo);
+  const redo = useEditorStore((s) => s.redo);
+  const cut = useEditorStore((s) => s.cut);
+  const copy = useEditorStore((s) => s.copy);
+  const paste = useEditorStore((s) => s.paste);
+  const deleteSelection = useEditorStore((s) => s.deleteSelection);
   const { zoomStepTowardsCenter, resetZoom } = useCanvasZoom();
 
   useEffect(() => {

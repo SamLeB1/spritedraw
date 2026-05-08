@@ -10,8 +10,11 @@ import {
 } from "../constants";
 
 export default function useCanvasZoom() {
-  const { gridSize, panOffset, zoomLevel, setPanOffset, setZoomLevel } =
-    useEditorStore();
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const panOffset = useEditorStore((s) => s.panOffset);
+  const zoomLevel = useEditorStore((s) => s.zoomLevel);
+  const setPanOffset = useEditorStore((s) => s.setPanOffset);
+  const setZoomLevel = useEditorStore((s) => s.setZoomLevel);
 
   function getPxSize() {
     return BASE_PX_SIZE * zoomLevel;

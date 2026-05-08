@@ -4,7 +4,8 @@ import { useEditorStore } from "../store/editorStore";
 import { MAX_BRUSH_SIZE } from "../constants";
 
 export default function BrushSizeInput() {
-  const { brushSize, setBrushSize } = useEditorStore();
+  const brushSize = useEditorStore((s) => s.brushSize);
+  const setBrushSize = useEditorStore((s) => s.setBrushSize);
   const [isEmptyBrushSizeInput, setIsEmptyBrushSizeInput] = useState(false);
 
   function handleChangeBrushSize(e: React.ChangeEvent<HTMLInputElement>) {

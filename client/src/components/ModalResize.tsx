@@ -4,7 +4,8 @@ import { MIN_GRID_SIZE, MAX_GRID_SIZE } from "../constants";
 import type { Side } from "../types";
 
 export default function ModalResize() {
-  const { gridSize, resizeCanvas } = useEditorStore();
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const resizeCanvas = useEditorStore((s) => s.resizeCanvas);
   const [widthInput, setWidthInput] = useState(gridSize.x);
   const [heightInput, setHeightInput] = useState(gridSize.y);
   const [selectedAnchor, setSelectedAnchor] = useState<Side>("top-left");

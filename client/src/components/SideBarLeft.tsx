@@ -12,13 +12,11 @@ function toolIcon(row: number, col: number): React.CSSProperties {
 }
 
 export default function SideBarLeft() {
-  const {
-    primaryColor,
-    secondaryColor,
-    selectTool,
-    setPrimaryColor,
-    setSecondaryColor,
-  } = useEditorStore();
+  const primaryColor = useEditorStore((s) => s.primaryColor);
+  const secondaryColor = useEditorStore((s) => s.secondaryColor);
+  const selectTool = useEditorStore((s) => s.selectTool);
+  const setPrimaryColor = useEditorStore((s) => s.setPrimaryColor);
+  const setSecondaryColor = useEditorStore((s) => s.setSecondaryColor);
 
   return (
     <div className="min-w-28 overflow-x-hidden overflow-y-auto bg-neutral-800 p-2">

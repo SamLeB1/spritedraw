@@ -4,7 +4,10 @@ import { useEditorStore } from "../store/editorStore";
 const MAX_SIZE = 4096;
 
 export default function ModalExport() {
-  const { frames, gridSize, exportFrameToPng, exportToGif } = useEditorStore();
+  const frames = useEditorStore((s) => s.frames);
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const exportFrameToPng = useEditorStore((s) => s.exportFrameToPng);
+  const exportToGif = useEditorStore((s) => s.exportToGif);
   const [scale, setScale] = useState(1);
   const [isEmptyScaleInput, setIsEmptyScaleInput] = useState(false);
   const maxScale = Math.floor(MAX_SIZE / Math.max(gridSize.x, gridSize.y));

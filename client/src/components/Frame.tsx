@@ -12,8 +12,12 @@ type FrameProps = {
 };
 
 export default function Frame({ frame, number }: FrameProps) {
-  const { activeFrameId, layers, cels, gridSize, getCel, selectFrame } =
-    useEditorStore();
+  const activeFrameId = useEditorStore((s) => s.activeFrameId);
+  const layers = useEditorStore((s) => s.layers);
+  const cels = useEditorStore((s) => s.cels);
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const getCel = useEditorStore((s) => s.getCel);
+  const selectFrame = useEditorStore((s) => s.selectFrame);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const canvasSize = useMemo(() => {

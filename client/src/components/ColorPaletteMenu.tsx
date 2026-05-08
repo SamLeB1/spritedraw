@@ -9,13 +9,11 @@ import ModalEditPalette from "./ModalEditPalette";
 import Tooltip from "./Tooltip";
 
 export default function ColorPaletteMenu() {
-  const {
-    palettes,
-    selectedPaletteId,
-    selectPalette,
-    getSelectedPalette,
-    addPalette,
-  } = usePaletteStore();
+  const palettes = usePaletteStore((s) => s.palettes);
+  const selectedPaletteId = usePaletteStore((s) => s.selectedPaletteId);
+  const selectPalette = usePaletteStore((s) => s.selectPalette);
+  const getSelectedPalette = usePaletteStore((s) => s.getSelectedPalette);
+  const addPalette = usePaletteStore((s) => s.addPalette);
   const selectedPalette = getSelectedPalette();
   const gplFileInputRef = useRef<HTMLInputElement>(null);
 

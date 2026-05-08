@@ -8,16 +8,14 @@ const CONTAINER_WIDTH = 256;
 const CONTAINER_HEIGHT = 128;
 
 export default function CanvasPreview() {
-  const {
-    layers,
-    cels,
-    activeFrameId,
-    gridSize,
-    visibleGridSize,
-    panOffset,
-    setPanOffset,
-    getCel,
-  } = useEditorStore();
+  const layers = useEditorStore((s) => s.layers);
+  const cels = useEditorStore((s) => s.cels);
+  const activeFrameId = useEditorStore((s) => s.activeFrameId);
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const visibleGridSize = useEditorStore((s) => s.visibleGridSize);
+  const panOffset = useEditorStore((s) => s.panOffset);
+  const setPanOffset = useEditorStore((s) => s.setPanOffset);
+  const getCel = useEditorStore((s) => s.getCel);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDragging = useRef(false);
   const dragStartMouse = useRef({ x: 0, y: 0 });

@@ -6,15 +6,13 @@ import useCanvasZoom from "../hooks/useCanvasZoom";
 import { MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL } from "../constants";
 
 export default function BottomBar() {
-  const {
-    gridSize,
-    zoomLevel,
-    undoHistory,
-    redoHistory,
-    mousePos,
-    undo,
-    redo,
-  } = useEditorStore();
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const zoomLevel = useEditorStore((s) => s.zoomLevel);
+  const undoHistory = useEditorStore((s) => s.undoHistory);
+  const redoHistory = useEditorStore((s) => s.redoHistory);
+  const mousePos = useEditorStore((s) => s.mousePos);
+  const undo = useEditorStore((s) => s.undo);
+  const redo = useEditorStore((s) => s.redo);
   const { zoomStepTowardsCenter, resetZoom } = useCanvasZoom();
   const isEmptyUndoHistory = undoHistory.length === 0;
   const isEmptyRedoHistory = redoHistory.length === 0;

@@ -3,12 +3,14 @@ import BrushSizeInput from "./BrushSizeInput";
 import Tooltip from "./Tooltip";
 
 export default function ShadeToolOptions() {
-  const {
-    switchDarkenAndLighten,
-    shadeStrength,
-    setSwitchDarkenAndLighten,
-    setShadeStrength,
-  } = useEditorStore();
+  const switchDarkenAndLighten = useEditorStore(
+    (s) => s.switchDarkenAndLighten,
+  );
+  const shadeStrength = useEditorStore((s) => s.shadeStrength);
+  const setSwitchDarkenAndLighten = useEditorStore(
+    (s) => s.setSwitchDarkenAndLighten,
+  );
+  const setShadeStrength = useEditorStore((s) => s.setShadeStrength);
 
   return (
     <div className="flex h-full items-center">

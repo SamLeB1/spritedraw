@@ -10,7 +10,7 @@ import SelectToolOptions from "./SelectToolOptions";
 import MoveToolOptions from "./MoveToolOptions";
 
 export default function ToolOptionsBar() {
-  const { selectedTool } = useEditorStore();
+  const selectedTool = useEditorStore((s) => s.selectedTool);
 
   return (
     <div className="min-h-10 bg-neutral-800 px-8">

@@ -18,21 +18,19 @@ import Tooltip from "./Tooltip";
 import LayerPropertiesWindow from "./LayerPropertiesWindow";
 
 export default function LayersMenu() {
-  const {
-    layers,
-    activeLayerId,
-    selectLayer,
-    toggleLayerVisibility,
-    toggleLayerLock,
-    renameLayer,
-    newLayer,
-    duplicateLayer,
-    deleteLayer,
-    moveLayerUp,
-    moveLayerDown,
-    mergeLayerDown,
-    flattenLayers,
-  } = useEditorStore();
+  const layers = useEditorStore((s) => s.layers);
+  const activeLayerId = useEditorStore((s) => s.activeLayerId);
+  const selectLayer = useEditorStore((s) => s.selectLayer);
+  const toggleLayerVisibility = useEditorStore((s) => s.toggleLayerVisibility);
+  const toggleLayerLock = useEditorStore((s) => s.toggleLayerLock);
+  const renameLayer = useEditorStore((s) => s.renameLayer);
+  const newLayer = useEditorStore((s) => s.newLayer);
+  const duplicateLayer = useEditorStore((s) => s.duplicateLayer);
+  const deleteLayer = useEditorStore((s) => s.deleteLayer);
+  const moveLayerUp = useEditorStore((s) => s.moveLayerUp);
+  const moveLayerDown = useEditorStore((s) => s.moveLayerDown);
+  const mergeLayerDown = useEditorStore((s) => s.mergeLayerDown);
+  const flattenLayers = useEditorStore((s) => s.flattenLayers);
   const [editingLayerId, setEditingLayerId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState("");
   const [showLayerProperties, setShowLayerProperties] = useState(false);

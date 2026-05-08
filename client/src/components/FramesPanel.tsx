@@ -21,20 +21,18 @@ import FpsInput from "./FpsInput";
 import Tooltip from "./Tooltip";
 
 export default function FramesPanel() {
-  const {
-    frames,
-    activeFrameId,
-    isPlayingAnimation,
-    showOnionSkin,
-    setIsPlayingAnimation,
-    setShowOnionSkin,
-    selectFrame,
-    newFrame,
-    duplicateFrame,
-    deleteFrame,
-    moveFrameLeft,
-    moveFrameRight,
-  } = useEditorStore();
+  const frames = useEditorStore((s) => s.frames);
+  const activeFrameId = useEditorStore((s) => s.activeFrameId);
+  const isPlayingAnimation = useEditorStore((s) => s.isPlayingAnimation);
+  const showOnionSkin = useEditorStore((s) => s.showOnionSkin);
+  const setIsPlayingAnimation = useEditorStore((s) => s.setIsPlayingAnimation);
+  const setShowOnionSkin = useEditorStore((s) => s.setShowOnionSkin);
+  const selectFrame = useEditorStore((s) => s.selectFrame);
+  const newFrame = useEditorStore((s) => s.newFrame);
+  const duplicateFrame = useEditorStore((s) => s.duplicateFrame);
+  const deleteFrame = useEditorStore((s) => s.deleteFrame);
+  const moveFrameLeft = useEditorStore((s) => s.moveFrameLeft);
+  const moveFrameRight = useEditorStore((s) => s.moveFrameRight);
   useAnimationPlayback();
   const [isOpen, setIsOpen] = useState(false);
   const activeFrameIndex = frames.findIndex(

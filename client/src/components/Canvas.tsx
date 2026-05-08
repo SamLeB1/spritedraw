@@ -39,79 +39,89 @@ const RESIZE_HANDLES: { name: Direction; x: number; y: number }[] = [
 const RESIZE_HANDLE_RADIUS = 8;
 
 export default function Canvas() {
-  const {
-    layers,
-    frames,
-    cels,
-    activeLayerId,
-    activeFrameId,
-    gridSize,
-    visibleGridSize,
-    panOffset,
-    zoomLevel,
-    isPlayingAnimation,
-    showOnionSkin,
-    selectedTool,
-    brushSize,
-    lineStartPos,
-    lineEndPos,
-    shapeMode,
-    shapeFill,
-    shapeStartPos,
-    shapeEndPos,
-    selectionMode,
-    selectionMask,
-    selectionAction,
-    selectionStartPos,
-    selectionMoveOffset,
-    selectionResizeOffset,
-    selectionRotation,
-    activeResizeHandle,
-    selectedArea,
-    showSelectionPreview,
-    isSelectionFlipped,
-    isPasting,
-    lassoPath,
-    moveStartPos,
-    moveOffset,
-    setVisibleGridSize,
-    setPanOffset,
-    setPrimaryColor,
-    setSecondaryColor,
-    setIsPrimaryColorActive,
-    setLineStartPos,
-    setLineEndPos,
-    setShapeStartPos,
-    setShapeEndPos,
-    setSelectionAction,
-    setSelectionStartPos,
-    setSelectionMoveOffset,
-    setSelectionResizeOffset,
-    setActiveResizeHandle,
-    setSelectedArea,
-    setLassoPath,
-    setMoveStartPos,
-    setMoveOffset,
-    setMousePos,
-    getLayer,
-    getCel,
-    getActiveColorRGBA,
-    getCompositedPixelColor,
-    getEffectiveSelectionBounds,
-    getRectInBounds,
-    getTransformedSelection,
-    draw,
-    drawShade,
-    drawLine,
-    drawShape,
-    erase,
-    floodFill,
-    endSelectionAction,
-    applySelectionAction,
-    performWandSelection,
-    applyMove,
-    clearDrawBuffer,
-  } = useEditorStore();
+  const layers = useEditorStore((s) => s.layers);
+  const frames = useEditorStore((s) => s.frames);
+  const cels = useEditorStore((s) => s.cels);
+  const activeLayerId = useEditorStore((s) => s.activeLayerId);
+  const activeFrameId = useEditorStore((s) => s.activeFrameId);
+  const gridSize = useEditorStore((s) => s.gridSize);
+  const visibleGridSize = useEditorStore((s) => s.visibleGridSize);
+  const panOffset = useEditorStore((s) => s.panOffset);
+  const zoomLevel = useEditorStore((s) => s.zoomLevel);
+  const isPlayingAnimation = useEditorStore((s) => s.isPlayingAnimation);
+  const showOnionSkin = useEditorStore((s) => s.showOnionSkin);
+  const selectedTool = useEditorStore((s) => s.selectedTool);
+  const brushSize = useEditorStore((s) => s.brushSize);
+  const lineStartPos = useEditorStore((s) => s.lineStartPos);
+  const lineEndPos = useEditorStore((s) => s.lineEndPos);
+  const shapeMode = useEditorStore((s) => s.shapeMode);
+  const shapeFill = useEditorStore((s) => s.shapeFill);
+  const shapeStartPos = useEditorStore((s) => s.shapeStartPos);
+  const shapeEndPos = useEditorStore((s) => s.shapeEndPos);
+  const selectionMode = useEditorStore((s) => s.selectionMode);
+  const selectionMask = useEditorStore((s) => s.selectionMask);
+  const selectionAction = useEditorStore((s) => s.selectionAction);
+  const selectionStartPos = useEditorStore((s) => s.selectionStartPos);
+  const selectionMoveOffset = useEditorStore((s) => s.selectionMoveOffset);
+  const selectionResizeOffset = useEditorStore((s) => s.selectionResizeOffset);
+  const selectionRotation = useEditorStore((s) => s.selectionRotation);
+  const activeResizeHandle = useEditorStore((s) => s.activeResizeHandle);
+  const selectedArea = useEditorStore((s) => s.selectedArea);
+  const showSelectionPreview = useEditorStore((s) => s.showSelectionPreview);
+  const isSelectionFlipped = useEditorStore((s) => s.isSelectionFlipped);
+  const isPasting = useEditorStore((s) => s.isPasting);
+  const lassoPath = useEditorStore((s) => s.lassoPath);
+  const moveStartPos = useEditorStore((s) => s.moveStartPos);
+  const moveOffset = useEditorStore((s) => s.moveOffset);
+  const setVisibleGridSize = useEditorStore((s) => s.setVisibleGridSize);
+  const setPanOffset = useEditorStore((s) => s.setPanOffset);
+  const setPrimaryColor = useEditorStore((s) => s.setPrimaryColor);
+  const setSecondaryColor = useEditorStore((s) => s.setSecondaryColor);
+  const setIsPrimaryColorActive = useEditorStore(
+    (s) => s.setIsPrimaryColorActive,
+  );
+  const setLineStartPos = useEditorStore((s) => s.setLineStartPos);
+  const setLineEndPos = useEditorStore((s) => s.setLineEndPos);
+  const setShapeStartPos = useEditorStore((s) => s.setShapeStartPos);
+  const setShapeEndPos = useEditorStore((s) => s.setShapeEndPos);
+  const setSelectionAction = useEditorStore((s) => s.setSelectionAction);
+  const setSelectionStartPos = useEditorStore((s) => s.setSelectionStartPos);
+  const setSelectionMoveOffset = useEditorStore(
+    (s) => s.setSelectionMoveOffset,
+  );
+  const setSelectionResizeOffset = useEditorStore(
+    (s) => s.setSelectionResizeOffset,
+  );
+  const setActiveResizeHandle = useEditorStore((s) => s.setActiveResizeHandle);
+  const setSelectedArea = useEditorStore((s) => s.setSelectedArea);
+  const setLassoPath = useEditorStore((s) => s.setLassoPath);
+  const setMoveStartPos = useEditorStore((s) => s.setMoveStartPos);
+  const setMoveOffset = useEditorStore((s) => s.setMoveOffset);
+  const setMousePos = useEditorStore((s) => s.setMousePos);
+  const getLayer = useEditorStore((s) => s.getLayer);
+  const getCel = useEditorStore((s) => s.getCel);
+  const getActiveColorRGBA = useEditorStore((s) => s.getActiveColorRGBA);
+  const getCompositedPixelColor = useEditorStore(
+    (s) => s.getCompositedPixelColor,
+  );
+  const getEffectiveSelectionBounds = useEditorStore(
+    (s) => s.getEffectiveSelectionBounds,
+  );
+  const getRectInBounds = useEditorStore((s) => s.getRectInBounds);
+  const getTransformedSelection = useEditorStore(
+    (s) => s.getTransformedSelection,
+  );
+  const draw = useEditorStore((s) => s.draw);
+  const drawShade = useEditorStore((s) => s.drawShade);
+  const drawLine = useEditorStore((s) => s.drawLine);
+  const drawShape = useEditorStore((s) => s.drawShape);
+  const erase = useEditorStore((s) => s.erase);
+  const floodFill = useEditorStore((s) => s.floodFill);
+  const endSelectionAction = useEditorStore((s) => s.endSelectionAction);
+  const applySelectionAction = useEditorStore((s) => s.applySelectionAction);
+  const performWandSelection = useEditorStore((s) => s.performWandSelection);
+  const applyMove = useEditorStore((s) => s.applyMove);
+  const clearDrawBuffer = useEditorStore((s) => s.clearDrawBuffer);
   const parentContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const activeMouseButton = useRef<number>(null);

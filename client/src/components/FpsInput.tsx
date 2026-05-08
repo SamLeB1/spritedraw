@@ -8,7 +8,8 @@ type FpsInputProps = {
 };
 
 export default function FpsInput({ className }: FpsInputProps) {
-  const { fps, setFps } = useEditorStore();
+  const fps = useEditorStore((s) => s.fps);
+  const setFps = useEditorStore((s) => s.setFps);
   const [isEmptyFpsInput, setIsEmptyFpsInput] = useState(false);
 
   function handleChangeFps(e: React.ChangeEvent<HTMLInputElement>) {

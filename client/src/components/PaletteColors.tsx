@@ -5,7 +5,8 @@ type PaletteColorsProps = {
 };
 
 export default function PaletteColors({ colors }: PaletteColorsProps) {
-  const { setPrimaryColor, setSecondaryColor } = useEditorStore();
+  const setPrimaryColor = useEditorStore((s) => s.setPrimaryColor);
+  const setSecondaryColor = useEditorStore((s) => s.setSecondaryColor);
 
   return (
     <div className="grid max-h-32 grid-cols-6 gap-1 overflow-x-hidden overflow-y-scroll">
