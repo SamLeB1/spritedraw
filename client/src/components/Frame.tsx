@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useEditorStore } from "../store/editorStore";
-import { compositeLayers } from "../utils/layers";
+import useCompositeLayers from "../hooks/useCompositeLayers";
 import { CHECKER_LIGHT, CHECKER_DARK } from "../constants";
-import type { Frame, LayerWithCel } from "../types";
+import type { Frame } from "../types";
 
 const THUMB_SIZE = 96;
 
@@ -13,10 +13,7 @@ type FrameProps = {
 
 export default function Frame({ frame, number }: FrameProps) {
   const activeFrameId = useEditorStore((s) => s.activeFrameId);
-  const layers = useEditorStore((s) => s.layers);
-  const cels = useEditorStore((s) => s.cels);
   const gridSize = useEditorStore((s) => s.gridSize);
-  const getCel = useEditorStore((s) => s.getCel);
   const selectFrame = useEditorStore((s) => s.selectFrame);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -49,13 +46,7 @@ export default function Frame({ frame, number }: FrameProps) {
     return tile;
   }, [gridSize, canvasSize]);
 
-  const composited = useMemo(() => {
-    const layersToComposite: LayerWithCel[] = layers.map((layer) => ({
-      ...layer,
-      cel: getCel(layer.id, frame.id),
-    }));
-    return compositeLayers(layersToComposite, gridSize.x, gridSize.y);
-  }, [layers, cels, frame.id, gridSize.x, gridSize.y, getCel]);
+  const composited = useCompositeLayers(frame.id);
 
   useEffect(() => {
     const canvas = canvasRef.current;

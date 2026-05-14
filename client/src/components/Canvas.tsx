@@ -4,6 +4,7 @@ import { useEditorStore } from "../store/editorStore";
 import useCanvasZoom from "../hooks/useCanvasZoom";
 import useModifierKeys from "../hooks/useModifierKeys";
 import useKeyboardShortcuts from "../hooks/useKeyboardShortcuts";
+import useCompositeLayers from "../hooks/useCompositeLayers";
 import {
   isValidIndex,
   getBaseIndex,
@@ -20,7 +21,7 @@ import {
   getEllipseFillPoints,
   getModdedShapeBounds,
 } from "../utils/geometry";
-import { compositeLayers, compositeLayersWithOverride } from "../utils/layers";
+import { compositeLayers } from "../utils/layers";
 import { BASE_PX_SIZE, CHECKER_LIGHT, CHECKER_DARK } from "../constants";
 import type { Direction, LayerWithCel } from "../types";
 
@@ -41,7 +42,6 @@ const RESIZE_HANDLE_RADIUS = 8;
 export default function Canvas() {
   const layers = useEditorStore((s) => s.layers);
   const frames = useEditorStore((s) => s.frames);
-  const cels = useEditorStore((s) => s.cels);
   const activeLayerId = useEditorStore((s) => s.activeLayerId);
   const activeFrameId = useEditorStore((s) => s.activeFrameId);
   const gridSize = useEditorStore((s) => s.gridSize);
@@ -367,29 +367,11 @@ export default function Canvas() {
     buildSelectionPreviewData,
   ]);
 
-  const composited = useMemo(() => {
-    const layersToComposite: LayerWithCel[] = layers.map((layer) => ({
-      ...layer,
-      cel: getCel(layer.id, activeFrameId),
-    }));
-    return overrideData
-      ? compositeLayersWithOverride(
-          layersToComposite,
-          gridSize.x,
-          gridSize.y,
-          activeLayerId,
-          overrideData,
-        )
-      : compositeLayers(layersToComposite, gridSize.x, gridSize.y);
-  }, [
-    layers,
-    cels,
-    activeLayerId,
-    activeFrameId,
-    gridSize,
-    overrideData,
-    getCel,
-  ]);
+  const compositeOverride = useMemo(
+    () => (overrideData ? { layerId: activeLayerId, cel: overrideData } : null),
+    [overrideData, activeLayerId],
+  );
+  const composited = useCompositeLayers(activeFrameId, compositeOverride);
 
   function drawCheckerboard(ctx: CanvasRenderingContext2D) {
     ctx.imageSmoothingEnabled = false;

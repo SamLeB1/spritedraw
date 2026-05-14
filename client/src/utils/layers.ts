@@ -64,19 +64,6 @@ export function compositeLayers(
   return result;
 }
 
-export function compositeLayersWithOverride(
-  layers: LayerWithCel[],
-  width: number,
-  height: number,
-  overrideLayerId: string,
-  overrideCel: Uint8ClampedArray,
-): Uint8ClampedArray {
-  const overriddenLayers = layers.map((l) =>
-    l.id === overrideLayerId ? { ...l, cel: overrideCel } : l,
-  );
-  return compositeLayers(overriddenLayers, width, height);
-}
-
 export function createNewLayer(name: string): Layer {
   return {
     id: crypto.randomUUID(),
