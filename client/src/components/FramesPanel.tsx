@@ -19,6 +19,7 @@ import useAnimationPlayback from "../hooks/useAnimationPlayback";
 import Frame from "./Frame";
 import FpsInput from "./FpsInput";
 import Tooltip from "./Tooltip";
+import OnionSkinSettingsWindow from "./OnionSkinSettingsWindow";
 
 export default function FramesPanel() {
   const frames = useEditorStore((s) => s.frames);
@@ -35,6 +36,8 @@ export default function FramesPanel() {
   const moveFrameRight = useEditorStore((s) => s.moveFrameRight);
   useAnimationPlayback();
   const [isOpen, setIsOpen] = useState(false);
+  const [showOnionSkinSettingsWindow, setShowOnionSkinSettingsWindow] =
+    useState(false);
   const activeFrameIndex = frames.findIndex(
     (frame) => frame.id === activeFrameId,
   );
@@ -198,11 +201,25 @@ export default function FramesPanel() {
                 </button>
               </Tooltip>
               <FpsInput className="mr-2" />
-              <Tooltip content="Onion skin" side="top">
+              <Tooltip
+                content={
+                  showOnionSkin ? "Disable onion skin" : "Enable onion skin"
+                }
+                side="top"
+              >
                 <button
                   className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
                   type="button"
                   onClick={() => setShowOnionSkin(!showOnionSkin)}
+                >
+                  <div className="h-5 w-5 bg-white" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Onion skin settings" side="top">
+                <button
+                  className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
+                  type="button"
+                  onClick={() => setShowOnionSkinSettingsWindow(true)}
                 >
                   <div className="h-5 w-5 bg-white" />
                 </button>
@@ -226,6 +243,11 @@ export default function FramesPanel() {
         )}
       </div>
       {isOpen && <div className="h-10 w-full" />}
+      {showOnionSkinSettingsWindow && (
+        <OnionSkinSettingsWindow
+          onClose={() => setShowOnionSkinSettingsWindow(false)}
+        />
+      )}
     </>
   );
 }
