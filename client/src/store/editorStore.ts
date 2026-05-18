@@ -269,6 +269,11 @@ type EditorState = {
   fps: number;
   isPlayingAnimation: boolean;
   showOnionSkin: boolean;
+  prevOnionFrameCount: number;
+  nextOnionFrameCount: number;
+  onionSkinOpacity: number;
+  onionSkinOpacityStep: number;
+  onionSkinDisplay: "below" | "above";
   selectedTool: Tool;
   primaryColor: string;
   secondaryColor: string;
@@ -312,6 +317,11 @@ type EditorState = {
   setFps: (fps: number) => void;
   setIsPlayingAnimation: (isPlaying: boolean) => void;
   setShowOnionSkin: (show: boolean) => void;
+  setPrevOnionFrameCount: (n: number) => void;
+  setNextOnionFrameCount: (n: number) => void;
+  setOnionSkinOpacity: (n: number) => void;
+  setOnionSkinOpacityStep: (n: number) => void;
+  setOnionSkinDisplay: (display: "below" | "above") => void;
   setPrimaryColor: (hex: string) => void;
   setSecondaryColor: (hex: string) => void;
   setIsPrimaryColorActive: (active: boolean) => void;
@@ -475,6 +485,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   fps: DEFAULT_FPS,
   isPlayingAnimation: false,
   showOnionSkin: false,
+  prevOnionFrameCount: 1,
+  nextOnionFrameCount: 1,
+  onionSkinOpacity: 0.3,
+  onionSkinOpacityStep: 0.1,
+  onionSkinDisplay: "below",
   selectedTool: "pencil",
   primaryColor: "#000000",
   secondaryColor: "#ffffff",
@@ -522,6 +537,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       return { isPlayingAnimation: isPlaying };
     }),
   setShowOnionSkin: (show) => set({ showOnionSkin: show }),
+  setPrevOnionFrameCount: (n) => set({ prevOnionFrameCount: n }),
+  setNextOnionFrameCount: (n) => set({ nextOnionFrameCount: n }),
+  setOnionSkinOpacity: (n) => set({ onionSkinOpacity: n }),
+  setOnionSkinOpacityStep: (n) => set({ onionSkinOpacityStep: n }),
+  setOnionSkinDisplay: (display) => set({ onionSkinDisplay: display }),
   setPrimaryColor: (hex) => set({ primaryColor: hex }),
   setSecondaryColor: (hex) => set({ secondaryColor: hex }),
   setIsPrimaryColorActive: (active) => set({ isPrimaryColorActive: active }),

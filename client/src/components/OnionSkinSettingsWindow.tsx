@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEditorStore } from "../store/editorStore";
 import FloatingWindow from "./FloatingWindow";
 
 type OnionSkinSettingsWindowProps = {
@@ -8,13 +8,22 @@ type OnionSkinSettingsWindowProps = {
 export default function OnionSkinSettingsWindow({
   onClose,
 }: OnionSkinSettingsWindowProps) {
-  const [prevOnionFrameCount, setPrevOnionFrameCount] = useState(1);
-  const [nextOnionFrameCount, setNextOnionFrameCount] = useState(1);
-  const [onionSkinOpacity, setOnionSkinOpacity] = useState(0.3);
-  const [onionSkinOpacityStep, setOnionSkinOpacityStep] = useState(0.1);
-  const [onionSkinDisplay, setOnionSkinDisplay] = useState<"below" | "above">(
-    "below",
+  const prevOnionFrameCount = useEditorStore((s) => s.prevOnionFrameCount);
+  const nextOnionFrameCount = useEditorStore((s) => s.nextOnionFrameCount);
+  const onionSkinOpacity = useEditorStore((s) => s.onionSkinOpacity);
+  const onionSkinOpacityStep = useEditorStore((s) => s.onionSkinOpacityStep);
+  const onionSkinDisplay = useEditorStore((s) => s.onionSkinDisplay);
+  const setPrevOnionFrameCount = useEditorStore(
+    (s) => s.setPrevOnionFrameCount,
   );
+  const setNextOnionFrameCount = useEditorStore(
+    (s) => s.setNextOnionFrameCount,
+  );
+  const setOnionSkinOpacity = useEditorStore((s) => s.setOnionSkinOpacity);
+  const setOnionSkinOpacityStep = useEditorStore(
+    (s) => s.setOnionSkinOpacityStep,
+  );
+  const setOnionSkinDisplay = useEditorStore((s) => s.setOnionSkinDisplay);
 
   return (
     <FloatingWindow title="Onion Skin Settings" onClose={onClose}>
