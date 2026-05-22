@@ -1,4 +1,5 @@
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useEffect, useId, useRef, useState } from "react";
+import { useWindowStore } from "../store/windowStore";
 
 type FloatingWindowProps = {
   title: string;
@@ -6,6 +7,8 @@ type FloatingWindowProps = {
   onClose: () => void;
   defaultPosition?: { x: number; y: number };
 };
+
+const Z_BASE = 20;
 
 export default function FloatingWindow({
   title,
@@ -16,6 +19,18 @@ export default function FloatingWindow({
   const [position, setPosition] = useState(defaultPosition);
   const dragRef = useRef<{ startX: number; startY: number } | null>(null);
   const windowRef = useRef<HTMLDivElement>(null);
+  const id = useId();
+  const register = useWindowStore((s) => s.register);
+  const unregister = useWindowStore((s) => s.unregister);
+  const focus = useWindowStore((s) => s.focus);
+  const zIndex = useWindowStore(
+    (s) => Z_BASE + Math.max(0, s.stack.indexOf(id)),
+  );
+
+  useEffect(() => {
+    register(id);
+    return () => unregister(id);
+  }, [id, register, unregister]);
 
   function onPointerDown(e: React.PointerEvent) {
     e.preventDefault();
@@ -49,11 +64,13 @@ export default function FloatingWindow({
   return (
     <div
       ref={windowRef}
-      className="fixed z-20 min-w-64 rounded-lg border border-neutral-600 bg-neutral-800 shadow-lg"
+      className="fixed min-w-64 rounded-lg border border-neutral-600 bg-neutral-800 shadow-lg"
       style={{
         left: position.x,
         top: position.y,
+        zIndex,
       }}
+      onPointerDown={() => focus(id)}
     >
       <div
         className="flex cursor-grab items-center justify-between rounded-t-lg bg-neutral-700 p-1.5 pl-3 select-none active:cursor-grabbing"
