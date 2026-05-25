@@ -262,6 +262,8 @@ type EditorState = {
   cels: Cels;
   activeLayerId: string;
   activeFrameId: string;
+  editAllLayers: boolean;
+  editAllFrames: boolean;
   gridSize: { x: number; y: number };
   visibleGridSize: { x: number; y: number };
   panOffset: { x: number; y: number };
@@ -310,6 +312,8 @@ type EditorState = {
   lastDrawPos: { x: number; y: number } | null;
   mousePos: { x: number; y: number };
   clipboard: Clipboard | null;
+  setEditAllLayers: (all: boolean) => void;
+  setEditAllFrames: (all: boolean) => void;
   setGridSize: (gridSize: { x: number; y: number }) => void;
   setVisibleGridSize: (size: { x: number; y: number }) => void;
   setPanOffset: (panOffset: { x: number; y: number }) => void;
@@ -478,6 +482,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   cels: initCels,
   activeLayerId: initLayer.id,
   activeFrameId: initFrame.id,
+  editAllLayers: false,
+  editAllFrames: false,
   gridSize: DEFAULT_GRID_SIZE,
   visibleGridSize: DEFAULT_GRID_SIZE,
   panOffset: { x: 0, y: 0 },
@@ -526,6 +532,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   lastDrawPos: null,
   mousePos: { x: 0, y: 0 },
   clipboard: null,
+  setEditAllLayers: (all) => set({ editAllLayers: all }),
+  setEditAllFrames: (all) => set({ editAllFrames: all }),
   setGridSize: (gridSize) => set({ gridSize }),
   setVisibleGridSize: (size) => set({ visibleGridSize: size }),
   setPanOffset: (panOffset) => set({ panOffset }),

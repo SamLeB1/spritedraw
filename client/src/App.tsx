@@ -6,6 +6,7 @@ import SideBarLeft from "./components/SideBarLeft";
 import SideBarRight from "./components/SideBarRight";
 import BottomBar from "./components/BottomBar";
 import ToolOptionsBar from "./components/ToolOptionsBar";
+import EditModePicker from "./components/EditModePicker";
 import FramesPanel from "./components/FramesPanel";
 
 export default function App() {
@@ -24,7 +25,10 @@ export default function App() {
         <div className="flex flex-grow overflow-hidden">
           <SideBarLeft />
           <div className="relative flex flex-grow flex-col">
-            <ToolOptionsBar />
+            <div className="flex">
+              <ToolOptionsBar />
+              <EditModePicker />
+            </div>
             <Canvas />
             <FramesPanel />
           </div>
