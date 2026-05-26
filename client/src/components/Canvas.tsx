@@ -43,6 +43,7 @@ export default function Canvas() {
   const frames = useEditorStore((s) => s.frames);
   const activeLayerId = useEditorStore((s) => s.activeLayerId);
   const activeFrameId = useEditorStore((s) => s.activeFrameId);
+  const editAllLayers = useEditorStore((s) => s.editAllLayers);
   const gridSize = useEditorStore((s) => s.gridSize);
   const visibleGridSize = useEditorStore((s) => s.visibleGridSize);
   const panOffset = useEditorStore((s) => s.panOffset);
@@ -354,7 +355,7 @@ export default function Canvas() {
     const cel = getCel();
     if (lineStartPos && lineEndPos) return buildLinePreviewData(cel);
     else if (shapeStartPos && shapeEndPos) return buildShapePreviewData(cel);
-    else if (moveOffset) return buildMovePreviewData(cel);
+    else if (moveOffset && !editAllLayers) return buildMovePreviewData(cel);
     else if (showSelectionPreview) return buildSelectionPreviewData(cel);
     else return null;
   }, [
@@ -366,6 +367,7 @@ export default function Canvas() {
     shapeEndPos,
     buildShapePreviewData,
     moveOffset,
+    editAllLayers,
     buildMovePreviewData,
     showSelectionPreview,
     buildSelectionPreviewData,
@@ -465,11 +467,19 @@ export default function Canvas() {
     );
     tempCtx.putImageData(imageData, 0, 0);
 
+    let offset = { x: 0, y: 0 };
+    if (moveOffset && editAllLayers) {
+      offset = { ...moveOffset };
+      if (modifierKeys.shift) {
+        if (Math.abs(offset.x) >= Math.abs(offset.y)) offset.y = 0;
+        else offset.x = 0;
+      }
+    }
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(
       tempCanvas,
-      panOffset.x,
-      panOffset.y,
+      panOffset.x - offset.x,
+      panOffset.y - offset.y,
       visibleGridSize.x,
       visibleGridSize.y,
       0,
