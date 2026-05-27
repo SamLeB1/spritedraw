@@ -114,7 +114,7 @@ type MoveAction = {
   action: "move";
   layerId: string;
   frameId: string;
-  data: Uint8ClampedArray;
+  cels: Cels;
   offset: { x: number; y: number };
 };
 
@@ -2772,54 +2772,78 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   applyMove: (mod) =>
     set((state) => {
       const {
+        layers,
+        frames,
         cels,
         activeLayerId,
         activeFrameId,
+        editAllLayers,
+        editAllFrames,
         gridSize,
         moveOffset,
         getLayer,
         getCel,
         updateHistory,
       } = state;
-      if (!moveOffset || (moveOffset.x === 0 && moveOffset.y === 0))
-        return { moveStartPos: null, moveOffset: null };
       const layer = getLayer();
-      if (layer.locked) return {};
-      const cel = getCel();
+      if (
+        layer.locked ||
+        !moveOffset ||
+        (moveOffset.x === 0 && moveOffset.y === 0)
+      )
+        return { moveStartPos: null, moveOffset: null };
 
-      const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
+      const keys: string[][] = [];
+      if (editAllLayers && !editAllFrames)
+        for (const layer of layers) keys.push([layer.id, activeFrameId]);
+      else if (!editAllLayers && editAllFrames)
+        for (const frame of frames) keys.push([activeLayerId, frame.id]);
+      else if (editAllLayers && editAllFrames) {
+        for (const layer of layers)
+          for (const frame of frames) keys.push([layer.id, frame.id]);
+      } else keys.push([activeLayerId, activeFrameId]);
+
+      const celsSubset: Cels = {};
+      const changedCelsSubset: Cels = {};
       const newMoveOffset = { ...moveOffset };
       if (mod) {
         if (Math.abs(moveOffset.x) >= Math.abs(moveOffset.y))
           newMoveOffset.y = 0;
         else newMoveOffset.x = 0;
       }
-      for (let y = 0; y < gridSize.y; y++) {
-        for (let x = 0; x < gridSize.x; x++) {
-          const srcX = x - newMoveOffset.x;
-          const srcY = y - newMoveOffset.y;
-          if (isValidIndex(srcX, srcY, gridSize)) {
-            const srcIndex = getBaseIndex(srcX, srcY, gridSize.x);
-            const dstIndex = getBaseIndex(x, y, gridSize.x);
-            newData[dstIndex] = cel[srcIndex];
-            newData[dstIndex + 1] = cel[srcIndex + 1];
-            newData[dstIndex + 2] = cel[srcIndex + 2];
-            newData[dstIndex + 3] = cel[srcIndex + 3];
+
+      for (const key of keys) {
+        const [layerId, frameId] = key;
+        const cel = getCel(layerId, frameId);
+        const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
+        for (let y = 0; y < gridSize.y; y++) {
+          for (let x = 0; x < gridSize.x; x++) {
+            const srcX = x - newMoveOffset.x;
+            const srcY = y - newMoveOffset.y;
+            if (isValidIndex(srcX, srcY, gridSize)) {
+              const srcIndex = getBaseIndex(srcX, srcY, gridSize.x);
+              const dstIndex = getBaseIndex(x, y, gridSize.x);
+              newData[dstIndex] = cel[srcIndex];
+              newData[dstIndex + 1] = cel[srcIndex + 1];
+              newData[dstIndex + 2] = cel[srcIndex + 2];
+              newData[dstIndex + 3] = cel[srcIndex + 3];
+            }
           }
         }
+        celsSubset[`${layerId}-${frameId}`] = cel;
+        changedCelsSubset[`${layerId}-${frameId}`] = newData;
       }
 
       const action: MoveAction = {
         action: "move",
         layerId: activeLayerId,
         frameId: activeFrameId,
-        data: cel,
+        cels: celsSubset,
         offset: newMoveOffset,
       };
       updateHistory(action);
 
-      const newCels: Cels = { ...cels };
-      newCels[`${activeLayerId}-${activeFrameId}`] = newData;
+      const newCels: Cels = { ...cels, ...changedCelsSubset };
       return { cels: newCels, moveStartPos: null, moveOffset: null };
     }),
   undo: () => {
