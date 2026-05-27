@@ -2851,6 +2851,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const {
       layers,
       frames,
+      cels,
       gridSize,
       undoHistory,
       redoHistory,
@@ -2897,8 +2898,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       setCelData(newData, layerId, frameId);
       set({ activeLayerId: layerId, activeFrameId: frameId });
     } else if (action.action === "move") {
-      setCelData(action.data, action.layerId, action.frameId);
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+      set({
+        cels: { ...cels, ...action.cels },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "delete") {
       const { layerId, frameId, area, pixels, mask } = action;
       const cel = getCel(layerId, frameId);
@@ -3042,6 +3046,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const {
       layers,
       frames,
+      cels,
       gridSize,
       undoHistory,
       redoHistory,
@@ -3089,25 +3094,31 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       setCelData(newData, layerId, frameId);
       set({ activeLayerId: layerId, activeFrameId: frameId });
     } else if (action.action === "move") {
-      const { layerId, frameId, offset } = action;
-      const cel = getCel(layerId, frameId);
-      const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
-      for (let y = 0; y < gridSize.y; y++) {
-        for (let x = 0; x < gridSize.x; x++) {
-          const srcX = x - offset.x;
-          const srcY = y - offset.y;
-          if (isValidIndex(srcX, srcY, gridSize)) {
-            const srcIndex = getBaseIndex(srcX, srcY, gridSize.x);
-            const dstIndex = getBaseIndex(x, y, gridSize.x);
-            newData[dstIndex] = cel[srcIndex];
-            newData[dstIndex + 1] = cel[srcIndex + 1];
-            newData[dstIndex + 2] = cel[srcIndex + 2];
-            newData[dstIndex + 3] = cel[srcIndex + 3];
+      const changedCelsSubset: Cels = Object.fromEntries(
+        Object.entries(action.cels).map(([key, cel]) => {
+          const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
+          for (let y = 0; y < gridSize.y; y++) {
+            for (let x = 0; x < gridSize.x; x++) {
+              const srcX = x - action.offset.x;
+              const srcY = y - action.offset.y;
+              if (isValidIndex(srcX, srcY, gridSize)) {
+                const srcIndex = getBaseIndex(srcX, srcY, gridSize.x);
+                const dstIndex = getBaseIndex(x, y, gridSize.x);
+                newData[dstIndex] = cel[srcIndex];
+                newData[dstIndex + 1] = cel[srcIndex + 1];
+                newData[dstIndex + 2] = cel[srcIndex + 2];
+                newData[dstIndex + 3] = cel[srcIndex + 3];
+              }
+            }
           }
-        }
-      }
-      setCelData(newData, layerId, frameId);
-      set({ activeLayerId: layerId, activeFrameId: frameId });
+          return [key, newData];
+        }),
+      );
+      set({
+        cels: { ...cels, ...changedCelsSubset },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "delete") {
       const { layerId, frameId, area, mask } = action;
       const cel = getCel(layerId, frameId);
