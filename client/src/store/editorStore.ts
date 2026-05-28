@@ -153,7 +153,7 @@ type RotateCelAction = {
   action: "rotate-cel";
   layerId: string;
   frameId: string;
-  data: Uint8ClampedArray;
+  cels: Cels;
   degrees: 90 | 180 | 270;
 };
 
@@ -1218,9 +1218,13 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     get().applyPendingActions();
     set((state) => {
       const {
+        layers,
+        frames,
         cels,
         activeLayerId,
         activeFrameId,
+        editAllLayers,
+        editAllFrames,
         gridSize,
         getLayer,
         getCel,
@@ -1228,39 +1232,57 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       } = state;
       const layer = getLayer();
       if (layer.locked) return {};
-      const cel = getCel();
 
-      const rotatedSize =
-        degrees === 180
-          ? { x: gridSize.x, y: gridSize.y }
-          : { x: gridSize.y, y: gridSize.x };
-      const rotatedData = rotatePixels(cel, gridSize, degrees);
-      const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
-      for (let y = 0; y < rotatedSize.y; y++) {
-        for (let x = 0; x < rotatedSize.x; x++) {
-          if (x < gridSize.x && y < gridSize.y) {
-            const srcIndex = getBaseIndex(x, y, rotatedSize.x);
-            const dstIndex = getBaseIndex(x, y, gridSize.x);
-            newData[dstIndex] = rotatedData[srcIndex];
-            newData[dstIndex + 1] = rotatedData[srcIndex + 1];
-            newData[dstIndex + 2] = rotatedData[srcIndex + 2];
-            newData[dstIndex + 3] = rotatedData[srcIndex + 3];
+      const celsSubset: Cels = {};
+      const changedCelsSubset: Cels = {};
+      const keys: string[][] = [];
+      if (editAllLayers && !editAllFrames)
+        for (const layer of layers) keys.push([layer.id, activeFrameId]);
+      else if (!editAllLayers && editAllFrames)
+        for (const frame of frames) keys.push([activeLayerId, frame.id]);
+      else if (editAllLayers && editAllFrames) {
+        for (const layer of layers)
+          for (const frame of frames) keys.push([layer.id, frame.id]);
+      } else keys.push([activeLayerId, activeFrameId]);
+
+      for (const key of keys) {
+        const [layerId, frameId] = key;
+        const cel = getCel(layerId, frameId);
+        const rotatedSize =
+          degrees === 180
+            ? { x: gridSize.x, y: gridSize.y }
+            : { x: gridSize.y, y: gridSize.x };
+        const rotatedData = rotatePixels(cel, gridSize, degrees);
+        const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
+        for (let y = 0; y < rotatedSize.y; y++) {
+          for (let x = 0; x < rotatedSize.x; x++) {
+            if (x < gridSize.x && y < gridSize.y) {
+              const srcIndex = getBaseIndex(x, y, rotatedSize.x);
+              const dstIndex = getBaseIndex(x, y, gridSize.x);
+              newData[dstIndex] = rotatedData[srcIndex];
+              newData[dstIndex + 1] = rotatedData[srcIndex + 1];
+              newData[dstIndex + 2] = rotatedData[srcIndex + 2];
+              newData[dstIndex + 3] = rotatedData[srcIndex + 3];
+            }
           }
         }
+        celsSubset[`${layerId}-${frameId}`] = cel;
+        changedCelsSubset[`${layerId}-${frameId}`] = newData;
       }
 
       const action: RotateCelAction = {
         action: "rotate-cel",
         layerId: activeLayerId,
         frameId: activeFrameId,
-        data: cel,
+        cels: celsSubset,
         degrees,
       };
       updateHistory(action);
 
-      const newCels: Cels = { ...cels };
-      newCels[`${activeLayerId}-${activeFrameId}`] = newData;
-      return { cels: newCels, isPlayingAnimation: false };
+      return {
+        cels: { ...cels, ...changedCelsSubset },
+        isPlayingAnimation: false,
+      };
     });
   },
   flipCel: (direction) => {
@@ -2974,8 +2996,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         zoomLevel,
       });
     } else if (action.action === "rotate-cel") {
-      setCelData(action.data, action.layerId, action.frameId);
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+      set({
+        cels: { ...cels, ...action.cels },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "flip-canvas") {
       const newCels: Cels = {};
       for (const layer of layers) {
@@ -3198,26 +3223,34 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         zoomLevel,
       });
     } else if (action.action === "rotate-cel") {
-      const rotatedSize =
-        action.degrees === 180
-          ? { x: gridSize.x, y: gridSize.y }
-          : { x: gridSize.y, y: gridSize.x };
-      const rotatedData = rotatePixels(action.data, gridSize, action.degrees);
-      const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
-      for (let y = 0; y < rotatedSize.y; y++) {
-        for (let x = 0; x < rotatedSize.x; x++) {
-          if (x < gridSize.x && y < gridSize.y) {
-            const srcIndex = getBaseIndex(x, y, rotatedSize.x);
-            const dstIndex = getBaseIndex(x, y, gridSize.x);
-            newData[dstIndex] = rotatedData[srcIndex];
-            newData[dstIndex + 1] = rotatedData[srcIndex + 1];
-            newData[dstIndex + 2] = rotatedData[srcIndex + 2];
-            newData[dstIndex + 3] = rotatedData[srcIndex + 3];
+      const changedCelsSubset: Cels = Object.fromEntries(
+        Object.entries(action.cels).map(([key, cel]) => {
+          const rotatedSize =
+            action.degrees === 180
+              ? { x: gridSize.x, y: gridSize.y }
+              : { x: gridSize.y, y: gridSize.x };
+          const rotatedData = rotatePixels(cel, gridSize, action.degrees);
+          const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
+          for (let y = 0; y < rotatedSize.y; y++) {
+            for (let x = 0; x < rotatedSize.x; x++) {
+              if (x < gridSize.x && y < gridSize.y) {
+                const srcIndex = getBaseIndex(x, y, rotatedSize.x);
+                const dstIndex = getBaseIndex(x, y, gridSize.x);
+                newData[dstIndex] = rotatedData[srcIndex];
+                newData[dstIndex + 1] = rotatedData[srcIndex + 1];
+                newData[dstIndex + 2] = rotatedData[srcIndex + 2];
+                newData[dstIndex + 3] = rotatedData[srcIndex + 3];
+              }
+            }
           }
-        }
-      }
-      setCelData(newData, action.layerId, action.frameId);
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+          return [key, newData];
+        }),
+      );
+      set({
+        cels: { ...cels, ...changedCelsSubset },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "flip-canvas") {
       const newCels: Cels = {};
       for (const layer of layers) {
