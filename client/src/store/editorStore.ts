@@ -141,7 +141,7 @@ type ClearAction = {
   action: "clear";
   layerId: string;
   frameId: string;
-  data: Uint8ClampedArray;
+  cels: Cels;
 };
 
 type RotateCanvasAction = {
@@ -1164,9 +1164,13 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     get().applyPendingActions();
     set((state) => {
       const {
+        layers,
+        frames,
         cels,
         activeLayerId,
         activeFrameId,
+        editAllLayers,
+        editAllFrames,
         gridSize,
         getLayer,
         getCel,
@@ -1174,21 +1178,40 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       } = state;
       const layer = getLayer();
       if (layer.locked) return {};
-      const cel = getCel();
+
+      const celsSubset: Cels = {};
+      const changedCelsSubset: Cels = {};
+      const keys: string[][] = [];
+      if (editAllLayers && !editAllFrames)
+        for (const layer of layers) keys.push([layer.id, activeFrameId]);
+      else if (!editAllLayers && editAllFrames)
+        for (const frame of frames) keys.push([activeLayerId, frame.id]);
+      else if (editAllLayers && editAllFrames) {
+        for (const layer of layers)
+          for (const frame of frames) keys.push([layer.id, frame.id]);
+      } else keys.push([activeLayerId, activeFrameId]);
+
+      for (const key of keys) {
+        const [layerId, frameId] = key;
+        const cel = getCel(layerId, frameId);
+        celsSubset[`${layerId}-${frameId}`] = cel;
+        changedCelsSubset[`${layerId}-${frameId}`] = new Uint8ClampedArray(
+          gridSize.x * gridSize.y * 4,
+        );
+      }
 
       const action: ClearAction = {
         action: "clear",
         layerId: activeLayerId,
         frameId: activeFrameId,
-        data: cel,
+        cels: celsSubset,
       };
       updateHistory(action);
 
-      const newCels: Cels = { ...cels };
-      newCels[`${activeLayerId}-${activeFrameId}`] = new Uint8ClampedArray(
-        gridSize.x * gridSize.y * 4,
-      );
-      return { cels: newCels, isPlayingAnimation: false };
+      return {
+        cels: { ...cels, ...changedCelsSubset },
+        isPlayingAnimation: false,
+      };
     });
   },
   rotateCel: (degrees) => {
@@ -2918,8 +2941,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       setCelData(newData, layerId, frameId);
       set({ activeLayerId: layerId, activeFrameId: frameId });
     } else if (action.action === "clear") {
-      setCelData(action.data, action.layerId, action.frameId);
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+      set({
+        cels: { ...cels, ...action.cels },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "rotate-canvas") {
       const newCels: Cels = {};
       const inverseDegrees = (360 - action.degrees) as 90 | 180 | 270;
@@ -3134,9 +3160,17 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       setCelData(newData, layerId, frameId);
       set({ activeLayerId: layerId, activeFrameId: frameId });
     } else if (action.action === "clear") {
-      const newData = new Uint8ClampedArray(gridSize.x * gridSize.y * 4);
-      setCelData(newData, action.layerId, action.frameId);
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+      const changedCelsSubset: Cels = Object.fromEntries(
+        Object.entries(action.cels).map(([key]) => [
+          key,
+          new Uint8ClampedArray(gridSize.x * gridSize.y * 4),
+        ]),
+      );
+      set({
+        cels: { ...cels, ...changedCelsSubset },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "rotate-canvas") {
       const newCels: Cels = {};
       for (const layer of layers) {
