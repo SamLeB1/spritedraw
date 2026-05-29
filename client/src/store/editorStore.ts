@@ -166,6 +166,7 @@ type FlipCelAction = {
   action: "flip-cel";
   layerId: string;
   frameId: string;
+  keys: string[][];
   direction: "horizontal" | "vertical";
 };
 
@@ -1289,9 +1290,13 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     get().applyPendingActions();
     set((state) => {
       const {
+        layers,
+        frames,
         cels,
         activeLayerId,
         activeFrameId,
+        editAllLayers,
+        editAllFrames,
         gridSize,
         getLayer,
         getCel,
@@ -1299,20 +1304,41 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       } = state;
       const layer = getLayer();
       if (layer.locked) return {};
-      const cel = getCel();
-      const newData = flipPixels(cel, gridSize, direction);
+
+      const changedCelsSubset: Cels = {};
+      const keys: string[][] = [];
+      if (editAllLayers && !editAllFrames)
+        for (const layer of layers) keys.push([layer.id, activeFrameId]);
+      else if (!editAllLayers && editAllFrames)
+        for (const frame of frames) keys.push([activeLayerId, frame.id]);
+      else if (editAllLayers && editAllFrames) {
+        for (const layer of layers)
+          for (const frame of frames) keys.push([layer.id, frame.id]);
+      } else keys.push([activeLayerId, activeFrameId]);
+
+      for (const key of keys) {
+        const [layerId, frameId] = key;
+        const cel = getCel(layerId, frameId);
+        changedCelsSubset[`${layerId}-${frameId}`] = flipPixels(
+          cel,
+          gridSize,
+          direction,
+        );
+      }
 
       const action: FlipCelAction = {
         action: "flip-cel",
         layerId: activeLayerId,
         frameId: activeFrameId,
+        keys,
         direction,
       };
       updateHistory(action);
 
-      const newCels: Cels = { ...cels };
-      newCels[`${activeLayerId}-${activeFrameId}`] = newData;
-      return { cels: newCels, isPlayingAnimation: false };
+      return {
+        cels: { ...cels, ...changedCelsSubset },
+        isPlayingAnimation: false,
+      };
     });
   },
   getActiveColorHex: () => {
@@ -3015,13 +3041,21 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       }
       set({ cels: newCels });
     } else if (action.action === "flip-cel") {
-      const cel = getCel(action.layerId, action.frameId);
-      setCelData(
-        flipPixels(cel, gridSize, action.direction),
-        action.layerId,
-        action.frameId,
-      );
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+      const changedCelsSubset: Cels = {};
+      for (const key of action.keys) {
+        const [layerId, frameId] = key;
+        const cel = getCel(layerId, frameId);
+        changedCelsSubset[`${layerId}-${frameId}`] = flipPixels(
+          cel,
+          gridSize,
+          action.direction,
+        );
+      }
+      set({
+        cels: { ...cels, ...changedCelsSubset },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "resize") {
       let pxSize =
         BASE_CANVAS_SIZE / Math.max(action.prevSize.x, action.prevSize.y);
@@ -3265,13 +3299,21 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       }
       set({ cels: newCels });
     } else if (action.action === "flip-cel") {
-      const cel = getCel(action.layerId, action.frameId);
-      setCelData(
-        flipPixels(cel, gridSize, action.direction),
-        action.layerId,
-        action.frameId,
-      );
-      set({ activeLayerId: action.layerId, activeFrameId: action.frameId });
+      const changedCelsSubset: Cels = {};
+      for (const key of action.keys) {
+        const [layerId, frameId] = key;
+        const cel = getCel(layerId, frameId);
+        changedCelsSubset[`${layerId}-${frameId}`] = flipPixels(
+          cel,
+          gridSize,
+          action.direction,
+        );
+      }
+      set({
+        cels: { ...cels, ...changedCelsSubset },
+        activeLayerId: action.layerId,
+        activeFrameId: action.frameId,
+      });
     } else if (action.action === "resize") {
       let pxSize = BASE_CANVAS_SIZE / Math.max(action.size.x, action.size.y);
       if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
