@@ -1,9 +1,7 @@
 import { useEditorStore } from "../store/editorStore";
+import { getFitZoomLevel } from "../utils/zoom";
 import {
-  BASE_CANVAS_SIZE,
   BASE_PX_SIZE,
-  MIN_PX_SIZE,
-  MAX_PX_SIZE,
   MIN_ZOOM_LEVEL,
   MAX_ZOOM_LEVEL,
   ZOOM_FACTOR,
@@ -122,10 +120,7 @@ export default function useCanvasZoom() {
   }
 
   function resetZoom() {
-    let newPxSize = BASE_CANVAS_SIZE / Math.max(gridSize.x, gridSize.y);
-    if (newPxSize < MIN_PX_SIZE) newPxSize = MIN_PX_SIZE;
-    if (newPxSize > MAX_PX_SIZE) newPxSize = MAX_PX_SIZE;
-    const newZoomLevel = newPxSize / BASE_PX_SIZE;
+    const newZoomLevel = getFitZoomLevel(gridSize.x, gridSize.y);
     if (newZoomLevel === zoomLevel) return;
     zoomTowardsCenter(newZoomLevel);
   }

@@ -34,13 +34,10 @@ import {
   getAutoLayerName,
 } from "../utils/layers";
 import { isValidPxsmData } from "../utils/pxsmValidator";
+import { getFitZoomLevel } from "../utils/zoom";
 import {
   DEFAULT_GRID_SIZE,
   MAX_GRID_SIZE,
-  BASE_CANVAS_SIZE,
-  BASE_PX_SIZE,
-  MIN_PX_SIZE,
-  MAX_PX_SIZE,
   DEFAULT_FPS,
   MAX_HISTORY_SIZE,
 } from "../constants";
@@ -1843,10 +1840,6 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     newCels[`${newLayer.id}-${newFrame.id}`] = new Uint8ClampedArray(
       size.x * size.y * 4,
     );
-    let pxSize = BASE_CANVAS_SIZE / Math.max(size.x, size.y);
-    if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-    if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-    const zoomLevel = pxSize / BASE_PX_SIZE;
     set({
       layers: [newLayer],
       frames: [newFrame],
@@ -1855,7 +1848,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       activeFrameId: newFrame.id,
       gridSize: size,
       panOffset: { x: 0, y: 0 },
-      zoomLevel,
+      zoomLevel: getFitZoomLevel(size.x, size.y),
       fps: DEFAULT_FPS,
       isPlayingAnimation: false,
       undoHistory: [],
@@ -1964,15 +1957,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       };
       updateHistory(action);
 
-      let pxSize = BASE_CANVAS_SIZE / Math.max(size.x, size.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       return {
         cels: newCels,
         gridSize: size,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(size.x, size.y),
         isPlayingAnimation: false,
       };
     });
@@ -2032,16 +2021,12 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       };
       updateHistory(action);
 
-      let pxSize = BASE_CANVAS_SIZE / Math.max(newSize.x, newSize.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       initSelection();
       return {
         cels: newCels,
         gridSize: newSize,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(newSize.x, newSize.y),
       };
     });
   },
@@ -2114,15 +2099,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       };
       updateHistory(action);
 
-      let pxSize = BASE_CANVAS_SIZE / Math.max(newSize.x, newSize.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       return {
         cels: newCels,
         gridSize: newSize,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(newSize.x, newSize.y),
         isPlayingAnimation: false,
       };
     });
@@ -2153,15 +2134,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       };
       updateHistory(action);
 
-      let pxSize = BASE_CANVAS_SIZE / Math.max(newSize.x, newSize.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       return {
         cels: newCels,
         gridSize: newSize,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(newSize.x, newSize.y),
         isPlayingAnimation: false,
       };
     });
@@ -2208,10 +2185,6 @@ export const useEditorStore = create<EditorState>((set, get) => ({
           new Uint8ClampedArray(cel);
       }
     }
-    let pxSize = BASE_CANVAS_SIZE / Math.max(data.width, data.height);
-    if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-    if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-    const zoomLevel = pxSize / BASE_PX_SIZE;
 
     toast.success("File imported successfully!");
     set({
@@ -2222,7 +2195,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       activeFrameId: data.activeFrameId,
       gridSize: { x: data.width, y: data.height },
       panOffset: { x: 0, y: 0 },
-      zoomLevel,
+      zoomLevel: getFitZoomLevel(data.width, data.height),
       fps: data.fps,
       isPlayingAnimation: false,
       undoHistory: [],
@@ -2264,10 +2237,6 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       const frame: Frame = { id: crypto.randomUUID() };
       const cels: Cels = {};
       cels[`${layer.id}-${frame.id}`] = new Uint8ClampedArray(imageData.data);
-      let pxSize = BASE_CANVAS_SIZE / Math.max(width, height);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       set({
         layers: [layer],
         frames: [frame],
@@ -2276,7 +2245,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         activeFrameId: frame.id,
         gridSize: { x: width, y: height },
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(width, height),
         fps: DEFAULT_FPS,
         isPlayingAnimation: false,
         undoHistory: [],
@@ -3011,15 +2980,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         action.degrees === 180
           ? { x: gridSize.x, y: gridSize.y }
           : { x: gridSize.y, y: gridSize.x };
-      let pxSize = BASE_CANVAS_SIZE / Math.max(newSize.x, newSize.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       set({
         cels: newCels,
         gridSize: newSize,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(newSize.x, newSize.y),
       });
     } else if (action.action === "rotate-cel") {
       set({
@@ -3057,16 +3022,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         activeFrameId: action.frameId,
       });
     } else if (action.action === "resize") {
-      let pxSize =
-        BASE_CANVAS_SIZE / Math.max(action.prevSize.x, action.prevSize.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       set({
         cels: action.prevCels,
         gridSize: action.prevSize,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(action.prevSize.x, action.prevSize.y),
       });
     } else if (action.action === "layer-structure") {
       set({
@@ -3246,15 +3206,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         action.degrees === 180
           ? { x: gridSize.x, y: gridSize.y }
           : { x: gridSize.y, y: gridSize.x };
-      let pxSize = BASE_CANVAS_SIZE / Math.max(newSize.x, newSize.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       set({
         cels: newCels,
         gridSize: newSize,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(newSize.x, newSize.y),
       });
     } else if (action.action === "rotate-cel") {
       const changedCelsSubset: Cels = Object.fromEntries(
@@ -3315,15 +3271,11 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         activeFrameId: action.frameId,
       });
     } else if (action.action === "resize") {
-      let pxSize = BASE_CANVAS_SIZE / Math.max(action.size.x, action.size.y);
-      if (pxSize < MIN_PX_SIZE) pxSize = MIN_PX_SIZE;
-      if (pxSize > MAX_PX_SIZE) pxSize = MAX_PX_SIZE;
-      const zoomLevel = pxSize / BASE_PX_SIZE;
       set({
         cels: action.cels,
         gridSize: action.size,
         panOffset: { x: 0, y: 0 },
-        zoomLevel,
+        zoomLevel: getFitZoomLevel(action.size.x, action.size.y),
       });
     } else if (action.action === "layer-structure") {
       set({

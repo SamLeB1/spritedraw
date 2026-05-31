@@ -161,7 +161,7 @@ export default function Canvas() {
     getLayer().locked &&
     selectedTool !== "color-picker" &&
     selectedTool !== "select";
-  const { zoomStepTowardsCursor } = useCanvasZoom();
+  const { zoomStepTowardsCursor, resetZoom } = useCanvasZoom();
   const modifierKeys = useModifierKeys();
   useKeyboardShortcuts();
 
@@ -1197,6 +1197,11 @@ export default function Canvas() {
     setHoveredPixel(null);
     handleAction(e as unknown as MouseEvent, true);
   }
+
+  useEffect(() => {
+    resetZoom();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     function handleMouseWheel(e: WheelEvent) {
