@@ -423,7 +423,7 @@ type EditorState = {
     color: RGBA,
     isUpdateHistory?: boolean,
   ) => void;
-  newCanvas: (size: { x: number; y: number }) => void;
+  newSprite: (size: { x: number; y: number }) => void;
   resizeCanvas: (
     size: { x: number; y: number },
     anchor: Side,
@@ -1832,7 +1832,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       newCels[`${activeLayerId}-${activeFrameId}`] = newData;
       return { cels: newCels };
     }),
-  newCanvas: (size) => {
+  newSprite: (size) => {
     get().discardPendingActions();
     const newLayer = createNewLayer("Layer 1");
     const newFrame: Frame = { id: crypto.randomUUID() };

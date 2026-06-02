@@ -3,7 +3,7 @@ import { useEditorStore } from "../store/editorStore";
 import { DEFAULT_GRID_SIZE, MIN_GRID_SIZE, MAX_GRID_SIZE } from "../constants";
 
 export default function ModalNew() {
-  const newCanvas = useEditorStore((s) => s.newCanvas);
+  const newSprite = useEditorStore((s) => s.newSprite);
   const [widthInput, setWidthInput] = useState(DEFAULT_GRID_SIZE.x);
   const [heightInput, setHeightInput] = useState(DEFAULT_GRID_SIZE.y);
 
@@ -26,7 +26,7 @@ export default function ModalNew() {
     let clampedHeight = heightInput;
     if (clampedHeight < MIN_GRID_SIZE) clampedHeight = MIN_GRID_SIZE;
     else if (clampedHeight > MAX_GRID_SIZE) clampedHeight = MAX_GRID_SIZE;
-    newCanvas({ x: clampedWidth, y: clampedHeight });
+    newSprite({ x: clampedWidth, y: clampedHeight });
   }
 
   return (
@@ -38,7 +38,7 @@ export default function ModalNew() {
           </button>
         </form>
         <div className="mb-4">
-          <h3 className="text-2xl font-medium text-white">New Canvas</h3>
+          <h3 className="text-2xl font-medium text-white">New Sprite</h3>
           <p className="text-neutral-400">
             Create a new sprite! Max size: {MAX_GRID_SIZE}x{MAX_GRID_SIZE}
           </p>
@@ -74,7 +74,7 @@ export default function ModalNew() {
         <div className="modal-action">
           <form method="dialog">
             <button className="btn btn-primary" onClick={handleNewSprite}>
-              New Sprite
+              Create Sprite
             </button>
           </form>
         </div>
