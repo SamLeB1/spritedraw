@@ -46,7 +46,7 @@ export default function FramesPanel() {
     <>
       <div className={`w-full ${isOpen && "absolute bottom-0"}`}>
         <div
-          className="bg-main-semi-light flex h-10 cursor-pointer items-center justify-between border-t border-neutral-400 px-4 hover:bg-neutral-700"
+          className="bg-main-semi-light flex min-h-9 cursor-pointer items-center justify-between border-t border-neutral-400 px-4 hover:bg-neutral-700"
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="flex items-center">
@@ -242,7 +242,7 @@ export default function FramesPanel() {
           </div>
         )}
       </div>
-      {isOpen && <div className="h-10 w-full" />}
+      {isOpen && <div className="h-9 w-full" />}
       {showOnionSkinSettingsWindow && (
         <OnionSkinSettingsWindow
           onClose={() => setShowOnionSkinSettingsWindow(false)}

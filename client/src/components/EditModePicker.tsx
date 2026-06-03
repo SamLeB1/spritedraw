@@ -8,7 +8,7 @@ export default function EditModePicker() {
   const setEditAllFrames = useEditorStore((s) => s.setEditAllFrames);
 
   return (
-    <div className="flex min-h-10 items-center bg-neutral-800 px-4">
+    <div className="flex min-h-9 items-center bg-neutral-800 px-4">
       <Tooltip
         content="Multi-edit with move tool/edit operations"
         side="bottom"

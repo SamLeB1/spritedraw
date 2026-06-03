@@ -18,7 +18,7 @@ export default function BottomBar() {
   const isEmptyRedoHistory = redoHistory.length === 0;
 
   return (
-    <div className="flex h-10 items-center bg-neutral-800 p-2">
+    <div className="flex min-h-9 items-center bg-neutral-800 px-2">
       <div className="mr-4 flex items-center">
         <div className="mr-2 h-5 w-5 bg-neutral-300" />
         <span className="text-sm text-neutral-300 select-none">
@@ -75,7 +75,7 @@ export default function BottomBar() {
           </Tooltip>
         )}
       </div>
-      <div>
+      <div className="flex items-center">
         {isEmptyUndoHistory ? (
           <Tooltip content="Undo (Ctrl + Z)" side="top">
             <button className="rounded-lg p-1" type="button">
