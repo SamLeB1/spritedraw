@@ -20,7 +20,7 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex items-center bg-zinc-700 px-8">
+    <div className="flex h-9 items-center bg-zinc-700 px-8">
       <h1 className="mr-8 text-xl font-medium text-blue-100 select-none">
         SpriteDraw
       </h1>
