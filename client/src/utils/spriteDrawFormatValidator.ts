@@ -1,4 +1,4 @@
-export function isValidPxsmData(data: unknown) {
+export function isValidSpriteDrawFileData(data: unknown) {
   if (typeof data !== "object" || data === null) return false;
 
   const d = data as Record<string, unknown>;

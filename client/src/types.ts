@@ -70,7 +70,7 @@ export type LayerWithCel = {
   blendMode: BlendMode;
 };
 
-export type PxsmData = {
+export type SpriteDrawFileData = {
   version: string;
   width: number;
   height: number;

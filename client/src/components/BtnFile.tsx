@@ -4,7 +4,7 @@ import { useEditorStore } from "../store/editorStore";
 import ModalNew from "./ModalNew";
 import ModalExport from "./ModalExport";
 import ModalExportSpriteSheet from "./ModalExportSpriteSheet";
-import type { PxsmData } from "../types";
+import type { SpriteDrawFileData } from "../types";
 
 type BtnFileProps = {
   isOpen: boolean;
@@ -19,18 +19,23 @@ export default function BtnFile({
   onHoverOpen,
   onClose,
 }: BtnFileProps) {
-  const importFromPxsm = useEditorStore((s) => s.importFromPxsm);
+  const importFromSpriteDrawFile = useEditorStore(
+    (s) => s.importFromSpriteDrawFile,
+  );
   const importImage = useEditorStore((s) => s.importImage);
-  const exportToPxsm = useEditorStore((s) => s.exportToPxsm);
-  const pxsmFileInputRef = useRef<HTMLInputElement>(null);
+  const exportToSpriteDrawFile = useEditorStore(
+    (s) => s.exportToSpriteDrawFile,
+  );
+  const spriteDrawFileInputRef = useRef<HTMLInputElement>(null);
   const imageFileInputRef = useRef<HTMLInputElement>(null);
 
-  function handlePxsmFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleSpriteDrawFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
     if (!window.confirm("Your current sprite will be overwritten. Continue?")) {
-      if (pxsmFileInputRef.current) pxsmFileInputRef.current.value = "";
+      if (spriteDrawFileInputRef.current)
+        spriteDrawFileInputRef.current.value = "";
       return;
     }
 
@@ -39,22 +44,24 @@ export default function BtnFile({
     reader.onload = (e) => {
       try {
         const fileContent = e.target?.result as string;
-        const parsedData: PxsmData = JSON.parse(fileContent);
-        importFromPxsm(parsedData);
+        const parsedData: SpriteDrawFileData = JSON.parse(fileContent);
+        importFromSpriteDrawFile(parsedData);
       } catch (err) {
         console.error(err);
         toast.error(
           "The imported file is invalid and may have been corrupted.",
         );
       } finally {
-        if (pxsmFileInputRef.current) pxsmFileInputRef.current.value = "";
+        if (spriteDrawFileInputRef.current)
+          spriteDrawFileInputRef.current.value = "";
       }
     };
 
     reader.onerror = () => {
       console.error(reader.error);
       toast.error("Error reading the file.");
-      if (pxsmFileInputRef.current) pxsmFileInputRef.current.value = "";
+      if (spriteDrawFileInputRef.current)
+        spriteDrawFileInputRef.current.value = "";
     };
 
     reader.readAsText(file);
@@ -124,20 +131,20 @@ export default function BtnFile({
               type="button"
               onClick={() => {
                 onClose();
-                exportToPxsm();
+                exportToSpriteDrawFile();
               }}
             >
-              Save as .pxsm
+              Save as .spritedraw
             </button>
             <button
               className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
-                pxsmFileInputRef.current?.click();
+                spriteDrawFileInputRef.current?.click();
               }}
             >
-              Import .pxsm
+              Import .spritedraw
             </button>
             <button
               className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
@@ -179,11 +186,11 @@ export default function BtnFile({
         )}
       </div>
       <input
-        ref={pxsmFileInputRef}
+        ref={spriteDrawFileInputRef}
         className="hidden"
         type="file"
-        accept=".pxsm, application/json"
-        onChange={handlePxsmFileChange}
+        accept=".spritedraw, application/json"
+        onChange={handleSpriteDrawFileChange}
       />
       <input
         ref={imageFileInputRef}

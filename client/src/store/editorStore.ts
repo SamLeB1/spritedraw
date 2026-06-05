@@ -33,7 +33,7 @@ import {
   duplicateLayer,
   getAutoLayerName,
 } from "../utils/layers";
-import { isValidPxsmData } from "../utils/pxsmValidator";
+import { isValidSpriteDrawFileData } from "../utils/spriteDrawFormatValidator";
 import { getFitZoomLevel } from "../utils/zoom";
 import {
   DEFAULT_GRID_SIZE,
@@ -52,7 +52,7 @@ import type {
   Frame,
   Cels,
   LayerWithCel,
-  PxsmData,
+  SpriteDrawFileData,
 } from "../types";
 
 type Action =
@@ -433,9 +433,9 @@ type EditorState = {
   trimCanvas: () => void;
   rotateCanvas: (degrees: 90 | 180 | 270) => void;
   flipCanvas: (direction: "horizontal" | "vertical") => void;
-  importFromPxsm: (data: PxsmData) => void;
+  importFromSpriteDrawFile: (data: SpriteDrawFileData) => void;
   importImage: (dataURL: string) => void;
-  exportToPxsm: () => void;
+  exportToSpriteDrawFile: () => void;
   exportFrameToPng: (scale: number, frameId?: string) => void;
   exportToGif: (scale: number) => void;
   exportToSpriteSheet: (
@@ -2168,8 +2168,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       return { cels: newCels, isPlayingAnimation: false };
     });
   },
-  importFromPxsm: (data) => {
-    if (!isValidPxsmData(data)) {
+  importFromSpriteDrawFile: (data) => {
+    if (!isValidSpriteDrawFileData(data)) {
       toast.error("The imported file is invalid and may have been corrupted.");
       return;
     }
@@ -2258,7 +2258,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       toast.error("Failed to import the image.");
     };
   },
-  exportToPxsm: () => {
+  exportToSpriteDrawFile: () => {
     const {
       layers,
       frames,
@@ -2275,7 +2275,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
         newCels[`${layer.id}-${frame.id}`] = Array.from(cel);
       }
     }
-    const pxsmData: PxsmData = {
+    const spriteDrawFileData: SpriteDrawFileData = {
       version: "1.0.0",
       width: gridSize.x,
       height: gridSize.y,
@@ -2288,12 +2288,12 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     };
 
     const id = Math.random().toString(36).substring(2, 15);
-    const dataStr = JSON.stringify(pxsmData);
+    const dataStr = JSON.stringify(spriteDrawFileData);
     const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `new-pixesam-${id}.pxsm`;
+    link.download = `new-spritedraw-${id}.spritedraw`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -2352,7 +2352,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const dataURL = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = dataURL;
-    link.download = `new-pixesam-${id}.png`;
+    link.download = `new-spritedraw-${id}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -2428,7 +2428,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `new-pixesam-${id}.gif`;
+    link.download = `new-spritedraw-${id}.gif`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -2492,7 +2492,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     const dataURL = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = dataURL;
-    link.download = `new-pixesam-${id}.png`;
+    link.download = `new-spritedraw-${id}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
