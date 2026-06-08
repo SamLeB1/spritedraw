@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaEdit } from "react-icons/fa";
 import { MdArrowRight } from "react-icons/md";
 import { useEditorStore } from "../store/editorStore";
 
@@ -44,12 +45,13 @@ export default function BtnEdit({
   return (
     <div>
       <button
-        className={`${isOpen && "bg-zinc-600"} h-9 cursor-pointer px-3 hover:bg-zinc-600`}
+        className={`${isOpen && "bg-zinc-600"} flex h-9 cursor-pointer items-center px-3 hover:bg-zinc-600`}
         type="button"
         onClick={onToggle}
         onMouseEnter={onHoverOpen}
       >
-        Edit
+        <FaEdit className="mr-1" />
+        <span className="text-sm">Edit</span>
       </button>
       {isOpen && (
         <div className="absolute z-1 w-40 bg-zinc-600">

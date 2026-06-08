@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { FaRegFile } from "react-icons/fa";
 import { toast } from "sonner";
 import { useEditorStore } from "../store/editorStore";
 import ModalNew from "./ModalNew";
@@ -103,12 +104,13 @@ export default function BtnFile({
     <>
       <div>
         <button
-          className={`${isOpen && "bg-zinc-600"} h-9 cursor-pointer px-3 hover:bg-zinc-600`}
+          className={`${isOpen && "bg-zinc-600"} flex h-9 cursor-pointer items-center px-3 hover:bg-zinc-600`}
           type="button"
           onClick={onToggle}
           onMouseEnter={onHoverOpen}
         >
-          File
+          <FaRegFile className="mr-1" />
+          <span className="text-sm">File</span>
         </button>
         {isOpen && (
           <div className="absolute z-1 w-40 bg-zinc-600">
