@@ -3,6 +3,7 @@ import useClickOutside from "../hooks/useClickOutside";
 import BtnFile from "./BtnFile";
 import BtnEdit from "./BtnEdit";
 import BtnSprite from "./BtnSprite";
+import logo from "../assets/images/logo.png";
 
 type Tab = "file" | "edit" | "sprite" | null;
 
@@ -20,10 +21,13 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex h-9 items-center bg-zinc-700 px-8">
-      <h1 className="mr-8 text-xl font-medium text-blue-100 select-none">
-        SpriteDraw
-      </h1>
+    <div className="flex h-9 items-center bg-zinc-700 px-4">
+      <img
+        className="mr-4 h-5"
+        style={{ imageRendering: "pixelated" }}
+        src={logo}
+        alt="SpriteDraw"
+      />
       <div ref={tabRef} className="flex items-center">
         <BtnFile
           isOpen={openTab === "file"}

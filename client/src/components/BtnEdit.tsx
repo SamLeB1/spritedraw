@@ -286,19 +286,6 @@ export default function BtnEdit({
           >
             Transform
           </button>
-          <hr className="my-1 text-zinc-400" />
-          <button
-            className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
-            type="button"
-          >
-            Replace color
-          </button>
-          <button
-            className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
-            type="button"
-          >
-            Invert
-          </button>
         </div>
       )}
     </div>
