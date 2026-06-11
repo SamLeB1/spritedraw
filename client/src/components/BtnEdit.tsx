@@ -54,127 +54,139 @@ export default function BtnEdit({
         <span className="text-sm">Edit</span>
       </button>
       {isOpen && (
-        <div className="absolute z-1 w-40 bg-zinc-600">
+        <div className="absolute z-1 bg-zinc-600">
           {undoEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 undo();
               }}
             >
-              Undo
+              <span className="mr-8">Undo</span>
+              <span>Ctrl+Z</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Undo
+              <span className="mr-8">Undo</span>
+              <span>Ctrl+Z</span>
             </button>
           )}
           {redoEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 redo();
               }}
             >
-              Redo
+              <span className="mr-8">Redo</span>
+              <span>Ctrl+Y</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Redo
+              <span className="mr-8">Redo</span>
+              <span>Ctrl+Y</span>
             </button>
           )}
           <hr className="my-1 text-zinc-400" />
           {cutEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 cut();
               }}
             >
-              Cut
+              <span className="mr-8">Cut</span>
+              <span>Ctrl+X</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Cut
+              <span className="mr-8">Cut</span>
+              <span>Ctrl+X</span>
             </button>
           )}
           {copyEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 copy();
               }}
             >
-              Copy
+              <span className="mr-8">Copy</span>
+              <span>Ctrl+C</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Copy
+              <span className="mr-8">Copy</span>
+              <span>Ctrl+C</span>
             </button>
           )}
           {pasteEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 paste();
               }}
             >
-              Paste
+              <span className="mr-8">Paste</span>
+              <span>Ctrl+V</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Paste
+              <span className="mr-8">Paste</span>
+              <span>Ctrl+V</span>
             </button>
           )}
           <hr className="my-1 text-zinc-400" />
           {clearEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 clearEdit();
               }}
             >
-              Clear
+              <span className="mr-8">Clear</span>
+              <span>Del</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Clear
+              <span className="mr-8">Clear</span>
+              <span>Del</span>
             </button>
           )}
           {rotateEnabled ? (
@@ -184,16 +196,16 @@ export default function BtnEdit({
               onMouseLeave={() => setIsRotateOpen(false)}
             >
               <button
-                className="flex w-full cursor-pointer items-center justify-between py-1 pl-2 text-start text-sm hover:bg-zinc-500"
+                className="flex w-full cursor-pointer items-center justify-between py-1 pl-3 text-sm hover:bg-zinc-500"
                 type="button"
               >
                 Rotate
                 <MdArrowRight size={20} />
               </button>
               {isRotateOpen && (
-                <div className="absolute top-0 left-full w-32 bg-zinc-600">
+                <div className="absolute top-0 left-full w-max bg-zinc-600">
                   <button
-                    className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                    className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
                     type="button"
                     onClick={() => {
                       onClose();
@@ -201,10 +213,11 @@ export default function BtnEdit({
                       rotateEdit(180);
                     }}
                   >
-                    180°
+                    <span className="mr-8">180°</span>
+                    <span>Shift+K</span>
                   </button>
                   <button
-                    className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                    className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
                     type="button"
                     onClick={() => {
                       onClose();
@@ -212,10 +225,11 @@ export default function BtnEdit({
                       rotateEdit(90);
                     }}
                   >
-                    90° CW
+                    <span className="mr-8">90° CW</span>
+                    <span>Shift+L</span>
                   </button>
                   <button
-                    className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                    className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
                     type="button"
                     onClick={() => {
                       onClose();
@@ -223,14 +237,15 @@ export default function BtnEdit({
                       rotateEdit(270);
                     }}
                   >
-                    90° CCW
+                    <span className="mr-8">90° CCW</span>
+                    <span>Shift+J</span>
                   </button>
                 </div>
               )}
             </div>
           ) : (
             <button
-              className="flex w-full items-center justify-between py-1 pl-2 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between py-1 pl-3 text-sm text-zinc-400"
               type="button"
               disabled
             >
@@ -240,53 +255,58 @@ export default function BtnEdit({
           )}
           {flipEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 flipEdit("horizontal");
               }}
             >
-              Flip horizontal
+              <span className="mr-8">Flip horizontal</span>
+              <span>Shift+H</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Flip horizontal
+              <span className="mr-8">Flip horizontal</span>
+              <span>Shift+H</span>
             </button>
           )}
           {flipEnabled ? (
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 flipEdit("vertical");
               }}
             >
-              Flip vertical
+              <span className="mr-8">Flip vertical</span>
+              <span>Shift+V</span>
             </button>
           ) : (
             <button
-              className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
               type="button"
               disabled
             >
-              Flip vertical
+              <span className="mr-8">Flip vertical</span>
+              <span>Shift+V</span>
             </button>
           )}
           <button
-            className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+            className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
             type="button"
             onClick={() => {
               onClose();
               transformEdit();
             }}
           >
-            Transform
+            <span className="mr-8">Transform</span>
+            <span>Ctrl+T</span>
           </button>
         </div>
       )}

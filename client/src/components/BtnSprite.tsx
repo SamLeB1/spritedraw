@@ -38,9 +38,9 @@ export default function BtnSprite({
           <span className="text-sm">Sprite</span>
         </button>
         {isOpen && (
-          <div className="absolute z-1 w-40 bg-zinc-600">
+          <div className="absolute z-1 bg-zinc-600">
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
@@ -50,37 +50,41 @@ export default function BtnSprite({
                 if (modal) modal.showModal();
               }}
             >
-              Resize
+              <span className="mr-8">Resize</span>
+              <span>Ctrl+R</span>
             </button>
             {cropEnabled ? (
               <button
-                className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
                 type="button"
                 onClick={() => {
                   onClose();
                   cropToSelection();
                 }}
               >
-                Crop
+                <span className="mr-8">Crop</span>
+                <span>Ctrl+Shift+X</span>
               </button>
             ) : (
               <button
-                className="w-full px-2 py-1 text-start text-sm text-zinc-400"
+                className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
                 type="button"
                 disabled
               >
-                Crop
+                <span className="mr-8">Crop</span>
+                <span>Ctrl+Shift+X</span>
               </button>
             )}
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 trimCanvas();
               }}
             >
-              Trim
+              <span className="mr-8">Trim</span>
+              <span>Ctrl+Shift+T</span>
             </button>
             <hr className="my-1 text-zinc-400" />
             <div
@@ -89,16 +93,16 @@ export default function BtnSprite({
               onMouseLeave={() => setIsRotateOpen(false)}
             >
               <button
-                className="flex w-full cursor-pointer items-center justify-between py-1 pl-2 text-start text-sm hover:bg-zinc-500"
+                className="flex w-full cursor-pointer items-center justify-between py-1 pl-3 text-sm hover:bg-zinc-500"
                 type="button"
               >
                 Rotate
                 <MdArrowRight size={20} />
               </button>
               {isRotateOpen && (
-                <div className="absolute top-0 left-full w-32 bg-zinc-600">
+                <div className="absolute top-0 left-full w-max bg-zinc-600">
                   <button
-                    className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                    className="block w-full cursor-pointer px-3 py-1 text-start text-sm hover:bg-zinc-500"
                     type="button"
                     onClick={() => {
                       onClose();
@@ -109,7 +113,7 @@ export default function BtnSprite({
                     180°
                   </button>
                   <button
-                    className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                    className="block w-full cursor-pointer px-3 py-1 text-start text-sm hover:bg-zinc-500"
                     type="button"
                     onClick={() => {
                       onClose();
@@ -120,7 +124,7 @@ export default function BtnSprite({
                     90° CW
                   </button>
                   <button
-                    className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+                    className="block w-full cursor-pointer px-3 py-1 text-start text-sm hover:bg-zinc-500"
                     type="button"
                     onClick={() => {
                       onClose();
@@ -134,7 +138,7 @@ export default function BtnSprite({
               )}
             </div>
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="block w-full cursor-pointer px-3 py-1 text-start text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
@@ -144,7 +148,7 @@ export default function BtnSprite({
               Flip horizontal
             </button>
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="block w-full cursor-pointer px-3 py-1 text-start text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();

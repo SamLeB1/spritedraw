@@ -113,9 +113,9 @@ export default function BtnFile({
           <span className="text-sm">File</span>
         </button>
         {isOpen && (
-          <div className="absolute z-1 w-40 bg-zinc-600">
+          <div className="absolute z-1 bg-zinc-600">
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
@@ -125,41 +125,45 @@ export default function BtnFile({
                 if (modal) modal.showModal();
               }}
             >
-              New
+              <span className="mr-8">New</span>
+              <span>Ctrl+N</span>
             </button>
             <hr className="my-1 text-zinc-400" />
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 exportToSpriteDrawFile();
               }}
             >
-              Save as .spritedraw
+              <span className="mr-8">Save as .spritedraw</span>
+              <span>Ctrl+S</span>
             </button>
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 spriteDrawFileInputRef.current?.click();
               }}
             >
-              Import .spritedraw
+              <span className="mr-8">Import .spritedraw</span>
+              <span>Ctrl+I</span>
             </button>
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
                 imageFileInputRef.current?.click();
               }}
             >
-              Import image
+              <span className="mr-8">Import image</span>
+              <span>Ctrl+Shift+I</span>
             </button>
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
@@ -169,10 +173,11 @@ export default function BtnFile({
                 if (modal) modal.showModal();
               }}
             >
-              Export
+              <span className="mr-8">Export</span>
+              <span>Ctrl+E</span>
             </button>
             <button
-              className="w-full cursor-pointer px-2 py-1 text-start text-sm hover:bg-zinc-500"
+              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
               type="button"
               onClick={() => {
                 onClose();
@@ -182,7 +187,8 @@ export default function BtnFile({
                 if (modal) modal.showModal();
               }}
             >
-              Export sprite sheet
+              <span className="mr-8">Export sprite sheet</span>
+              <span>Ctrl+Shift+E</span>
             </button>
           </div>
         )}
