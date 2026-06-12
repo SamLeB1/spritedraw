@@ -9,7 +9,7 @@ export default function useKeyboardShortcuts() {
   const cut = useEditorStore((s) => s.cut);
   const copy = useEditorStore((s) => s.copy);
   const paste = useEditorStore((s) => s.paste);
-  const deleteSelection = useEditorStore((s) => s.deleteSelection);
+  const clearEdit = useEditorStore((s) => s.clearEdit);
   const { zoomStepTowardsCenter, resetZoom } = useCanvasZoom();
 
   useEffect(() => {
@@ -24,63 +24,67 @@ export default function useKeyboardShortcuts() {
 
       const isCmdOrCtrl = e.metaKey || e.ctrlKey;
       const key = e.key.toLowerCase();
-      if (isCmdOrCtrl && !e.shiftKey && key === "z") {
-        e.preventDefault();
-        undo();
-      } else if (isCmdOrCtrl && e.shiftKey && key === "z") {
-        e.preventDefault();
-        redo();
-      } else if (isCmdOrCtrl && key === "y") {
-        e.preventDefault();
-        redo();
-      } else if (isCmdOrCtrl && key === "x") {
-        e.preventDefault();
-        cut();
-      } else if (isCmdOrCtrl && key === "c") {
-        e.preventDefault();
-        copy();
-      } else if (isCmdOrCtrl && key === "v") {
-        e.preventDefault();
-        paste();
-      } else if (key === "p") {
-        e.preventDefault();
-        selectTool("pencil");
-      } else if (key === "e") {
-        e.preventDefault();
-        selectTool("eraser");
-      } else if (key === "c") {
-        e.preventDefault();
-        selectTool("color-picker");
-      } else if (key === "b") {
-        e.preventDefault();
-        selectTool("bucket");
-      } else if (key === "l") {
-        e.preventDefault();
-        selectTool("line");
-      } else if (key === "h") {
-        e.preventDefault();
-        selectTool("shape");
-      } else if (key === "d") {
-        e.preventDefault();
-        selectTool("shade");
-      } else if (key === "s") {
-        e.preventDefault();
-        selectTool("select");
-      } else if (key === "m") {
-        e.preventDefault();
-        selectTool("move");
-      } else if (key === "+" || key === "=") {
-        e.preventDefault();
-        zoomStepTowardsCenter(true);
-      } else if (key === "-") {
-        e.preventDefault();
-        zoomStepTowardsCenter(false);
-      } else if (key === "0") {
-        e.preventDefault();
-        resetZoom();
-      } else if (key === "delete" || key === "backspace") {
-        e.preventDefault();
-        deleteSelection();
+      if (isCmdOrCtrl || e.altKey || e.shiftKey) {
+        if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "z") {
+          e.preventDefault();
+          undo();
+        } else if (isCmdOrCtrl && !e.altKey && e.shiftKey && key === "z") {
+          e.preventDefault();
+          redo();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "y") {
+          e.preventDefault();
+          redo();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "x") {
+          e.preventDefault();
+          cut();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "c") {
+          e.preventDefault();
+          copy();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "v") {
+          e.preventDefault();
+          paste();
+        }
+      } else {
+        if (key === "p") {
+          e.preventDefault();
+          selectTool("pencil");
+        } else if (key === "e") {
+          e.preventDefault();
+          selectTool("eraser");
+        } else if (key === "c") {
+          e.preventDefault();
+          selectTool("color-picker");
+        } else if (key === "b") {
+          e.preventDefault();
+          selectTool("bucket");
+        } else if (key === "l") {
+          e.preventDefault();
+          selectTool("line");
+        } else if (key === "h") {
+          e.preventDefault();
+          selectTool("shape");
+        } else if (key === "d") {
+          e.preventDefault();
+          selectTool("shade");
+        } else if (key === "s") {
+          e.preventDefault();
+          selectTool("select");
+        } else if (key === "m") {
+          e.preventDefault();
+          selectTool("move");
+        } else if (key === "+" || key === "=") {
+          e.preventDefault();
+          zoomStepTowardsCenter(true);
+        } else if (key === "-") {
+          e.preventDefault();
+          zoomStepTowardsCenter(false);
+        } else if (key === "0") {
+          e.preventDefault();
+          resetZoom();
+        } else if (key === "delete" || key === "backspace") {
+          e.preventDefault();
+          clearEdit();
+        }
       }
     }
 
@@ -95,6 +99,6 @@ export default function useKeyboardShortcuts() {
     paste,
     zoomStepTowardsCenter,
     resetZoom,
-    deleteSelection,
+    clearEdit,
   ]);
 }
