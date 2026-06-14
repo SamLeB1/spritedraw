@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { FaRegFile } from "react-icons/fa";
 import { toast } from "sonner";
 import { useEditorStore } from "../store/editorStore";
+import MenuItem from "./MenuItem";
 import ModalNew from "./ModalNew";
 import ModalExport from "./ModalExport";
 import ModalExportSpriteSheet from "./ModalExportSpriteSheet";
@@ -114,9 +115,8 @@ export default function BtnFile({
         </button>
         {isOpen && (
           <div className="absolute z-1 bg-zinc-600">
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
+            <MenuItem
+              item="New"
               onClick={() => {
                 onClose();
                 const modal = document.getElementById(
@@ -124,47 +124,34 @@ export default function BtnFile({
                 ) as HTMLDialogElement;
                 if (modal) modal.showModal();
               }}
-            >
-              <span className="mr-8">New</span>
-              <span>Ctrl+N</span>
-            </button>
+              shortcut="Ctrl+Alt+N"
+            />
             <hr className="my-1 text-zinc-400" />
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
+            <MenuItem
+              item="Save as .spritedraw"
               onClick={() => {
                 onClose();
                 exportToSpriteDrawFile();
               }}
-            >
-              <span className="mr-8">Save as .spritedraw</span>
-              <span>Ctrl+S</span>
-            </button>
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
+              shortcut="Ctrl+S"
+            />
+            <MenuItem
+              item="Import .spritedraw"
               onClick={() => {
                 onClose();
                 spriteDrawFileInputRef.current?.click();
               }}
-            >
-              <span className="mr-8">Import .spritedraw</span>
-              <span>Ctrl+I</span>
-            </button>
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
+              shortcut="Ctrl+O"
+            />
+            <MenuItem
+              item="Import image"
               onClick={() => {
                 onClose();
                 imageFileInputRef.current?.click();
               }}
-            >
-              <span className="mr-8">Import image</span>
-              <span>Ctrl+Shift+I</span>
-            </button>
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
+            />
+            <MenuItem
+              item="Export"
               onClick={() => {
                 onClose();
                 const modal = document.getElementById(
@@ -172,13 +159,10 @@ export default function BtnFile({
                 ) as HTMLDialogElement;
                 if (modal) modal.showModal();
               }}
-            >
-              <span className="mr-8">Export</span>
-              <span>Ctrl+E</span>
-            </button>
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
+              shortcut="Ctrl+Alt+E"
+            />
+            <MenuItem
+              item="Export sprite sheet"
               onClick={() => {
                 onClose();
                 const modal = document.getElementById(
@@ -186,10 +170,8 @@ export default function BtnFile({
                 ) as HTMLDialogElement;
                 if (modal) modal.showModal();
               }}
-            >
-              <span className="mr-8">Export sprite sheet</span>
-              <span>Ctrl+Shift+E</span>
-            </button>
+              shortcut="Ctrl+Alt+Shift+E"
+            />
           </div>
         )}
       </div>

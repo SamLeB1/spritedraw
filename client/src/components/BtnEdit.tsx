@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdArrowRight } from "react-icons/md";
 import { useEditorStore } from "../store/editorStore";
+import MenuItem from "./MenuItem";
 
 type BtnEditProps = {
   isOpen: boolean;
@@ -55,140 +56,62 @@ export default function BtnEdit({
       </button>
       {isOpen && (
         <div className="absolute z-1 bg-zinc-600">
-          {undoEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                undo();
-              }}
-            >
-              <span className="mr-8">Undo</span>
-              <span>Ctrl+Z</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Undo</span>
-              <span>Ctrl+Z</span>
-            </button>
-          )}
-          {redoEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                redo();
-              }}
-            >
-              <span className="mr-8">Redo</span>
-              <span>Ctrl+Y</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Redo</span>
-              <span>Ctrl+Y</span>
-            </button>
-          )}
+          <MenuItem
+            item="Undo"
+            onClick={() => {
+              onClose();
+              undo();
+            }}
+            shortcut="Ctrl+Z"
+            disabled={!undoEnabled}
+          />
+          <MenuItem
+            item="Redo"
+            onClick={() => {
+              onClose();
+              redo();
+            }}
+            shortcut="Ctrl+Y"
+            disabled={!redoEnabled}
+          />
           <hr className="my-1 text-zinc-400" />
-          {cutEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                cut();
-              }}
-            >
-              <span className="mr-8">Cut</span>
-              <span>Ctrl+X</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Cut</span>
-              <span>Ctrl+X</span>
-            </button>
-          )}
-          {copyEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                copy();
-              }}
-            >
-              <span className="mr-8">Copy</span>
-              <span>Ctrl+C</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Copy</span>
-              <span>Ctrl+C</span>
-            </button>
-          )}
-          {pasteEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                paste();
-              }}
-            >
-              <span className="mr-8">Paste</span>
-              <span>Ctrl+V</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Paste</span>
-              <span>Ctrl+V</span>
-            </button>
-          )}
+          <MenuItem
+            item="Cut"
+            onClick={() => {
+              onClose();
+              cut();
+            }}
+            shortcut="Ctrl+X"
+            disabled={!cutEnabled}
+          />
+          <MenuItem
+            item="Copy"
+            onClick={() => {
+              onClose();
+              copy();
+            }}
+            shortcut="Ctrl+C"
+            disabled={!copyEnabled}
+          />
+          <MenuItem
+            item="Paste"
+            onClick={() => {
+              onClose();
+              paste();
+            }}
+            shortcut="Ctrl+V"
+            disabled={!pasteEnabled}
+          />
           <hr className="my-1 text-zinc-400" />
-          {clearEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                clearEdit();
-              }}
-            >
-              <span className="mr-8">Clear</span>
-              <span>Del</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Clear</span>
-              <span>Del</span>
-            </button>
-          )}
+          <MenuItem
+            item="Clear"
+            onClick={() => {
+              onClose();
+              clearEdit();
+            }}
+            shortcut="Del"
+            disabled={!clearEnabled}
+          />
           {rotateEnabled ? (
             <div
               className="relative"
@@ -204,42 +127,30 @@ export default function BtnEdit({
               </button>
               {isRotateOpen && (
                 <div className="absolute top-0 left-full w-max bg-zinc-600">
-                  <button
-                    className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-                    type="button"
+                  <MenuItem
+                    item="180°"
                     onClick={() => {
                       onClose();
                       setIsRotateOpen(false);
                       rotateEdit(180);
                     }}
-                  >
-                    <span className="mr-8">180°</span>
-                    <span>Shift+K</span>
-                  </button>
-                  <button
-                    className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-                    type="button"
+                  />
+                  <MenuItem
+                    item="90° CW"
                     onClick={() => {
                       onClose();
                       setIsRotateOpen(false);
                       rotateEdit(90);
                     }}
-                  >
-                    <span className="mr-8">90° CW</span>
-                    <span>Shift+L</span>
-                  </button>
-                  <button
-                    className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-                    type="button"
+                  />
+                  <MenuItem
+                    item="90° CCW"
                     onClick={() => {
                       onClose();
                       setIsRotateOpen(false);
                       rotateEdit(270);
                     }}
-                  >
-                    <span className="mr-8">90° CCW</span>
-                    <span>Shift+J</span>
-                  </button>
+                  />
                 </div>
               )}
             </div>
@@ -253,61 +164,29 @@ export default function BtnEdit({
               <MdArrowRight size={20} color="oklch(70.5% 0.015 286.067)" />
             </button>
           )}
-          {flipEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                flipEdit("horizontal");
-              }}
-            >
-              <span className="mr-8">Flip horizontal</span>
-              <span>Shift+H</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Flip horizontal</span>
-              <span>Shift+H</span>
-            </button>
-          )}
-          {flipEnabled ? (
-            <button
-              className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-              type="button"
-              onClick={() => {
-                onClose();
-                flipEdit("vertical");
-              }}
-            >
-              <span className="mr-8">Flip vertical</span>
-              <span>Shift+V</span>
-            </button>
-          ) : (
-            <button
-              className="flex w-full items-center justify-between px-3 py-1 text-sm text-zinc-400"
-              type="button"
-              disabled
-            >
-              <span className="mr-8">Flip vertical</span>
-              <span>Shift+V</span>
-            </button>
-          )}
-          <button
-            className="flex w-full cursor-pointer items-center justify-between px-3 py-1 text-sm hover:bg-zinc-500"
-            type="button"
+          <MenuItem
+            item="Flip horizontal"
+            onClick={() => {
+              onClose();
+              flipEdit("horizontal");
+            }}
+            disabled={!flipEnabled}
+          />
+          <MenuItem
+            item="Flip vertical"
+            onClick={() => {
+              onClose();
+              flipEdit("vertical");
+            }}
+            disabled={!flipEnabled}
+          />
+          <MenuItem
+            item="Transform"
             onClick={() => {
               onClose();
               transformEdit();
             }}
-          >
-            <span className="mr-8">Transform</span>
-            <span>Ctrl+T</span>
-          </button>
+          />
         </div>
       )}
     </div>
