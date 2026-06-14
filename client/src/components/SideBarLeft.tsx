@@ -12,6 +12,7 @@ function toolIcon(row: number, col: number): React.CSSProperties {
 }
 
 export default function SideBarLeft() {
+  const selectedTool = useEditorStore((s) => s.selectedTool);
   const primaryColor = useEditorStore((s) => s.primaryColor);
   const secondaryColor = useEditorStore((s) => s.secondaryColor);
   const selectTool = useEditorStore((s) => s.selectTool);
@@ -23,7 +24,7 @@ export default function SideBarLeft() {
       <div className="mb-2 grid grid-cols-2">
         <Tooltip content="Pencil tool (P)" side="right">
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "pencil" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("pencil")}
           >
@@ -32,7 +33,7 @@ export default function SideBarLeft() {
         </Tooltip>
         <Tooltip content="Eraser tool (E)" side="right">
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "eraser" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("eraser")}
           >
@@ -41,7 +42,7 @@ export default function SideBarLeft() {
         </Tooltip>
         <Tooltip content="Color picker tool (C)" side="right">
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "color-picker" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("color-picker")}
           >
@@ -50,7 +51,7 @@ export default function SideBarLeft() {
         </Tooltip>
         <Tooltip content="Bucket tool (B)" side="right">
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "bucket" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("bucket")}
           >
@@ -69,7 +70,7 @@ export default function SideBarLeft() {
           side="right"
         >
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "line" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("line")}
           >
@@ -89,7 +90,7 @@ export default function SideBarLeft() {
           side="right"
         >
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "shape" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("shape")}
           >
@@ -109,7 +110,7 @@ export default function SideBarLeft() {
           side="right"
         >
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "shade" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("shade")}
           >
@@ -118,7 +119,7 @@ export default function SideBarLeft() {
         </Tooltip>
         <Tooltip content="Select tool (S)" side="right">
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "select" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("select")}
           >
@@ -137,7 +138,7 @@ export default function SideBarLeft() {
           side="right"
         >
           <button
-            className="cursor-pointer p-2 hover:bg-neutral-600"
+            className={`${selectedTool === "move" ? "border-2 border-blue-500 bg-neutral-700 p-1.5" : "cursor-pointer p-2 hover:bg-neutral-700"}`}
             type="button"
             onClick={() => selectTool("move")}
           >
