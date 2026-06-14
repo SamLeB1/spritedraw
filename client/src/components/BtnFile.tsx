@@ -177,6 +177,7 @@ export default function BtnFile({
       </div>
       <input
         ref={spriteDrawFileInputRef}
+        id="spritedraw-file-input"
         className="hidden"
         type="file"
         accept=".spritedraw, application/json"

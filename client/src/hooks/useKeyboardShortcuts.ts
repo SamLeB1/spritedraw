@@ -10,6 +10,9 @@ export default function useKeyboardShortcuts() {
   const copy = useEditorStore((s) => s.copy);
   const paste = useEditorStore((s) => s.paste);
   const clearEdit = useEditorStore((s) => s.clearEdit);
+  const exportToSpriteDrawFile = useEditorStore(
+    (s) => s.exportToSpriteDrawFile,
+  );
   const { zoomStepTowardsCenter, resetZoom } = useCanvasZoom();
 
   useEffect(() => {
@@ -25,7 +28,40 @@ export default function useKeyboardShortcuts() {
       const isCmdOrCtrl = e.metaKey || e.ctrlKey;
       const key = e.key.toLowerCase();
       if (isCmdOrCtrl || e.altKey || e.shiftKey) {
-        if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "z") {
+        if (isCmdOrCtrl && e.altKey && !e.shiftKey && key === "n") {
+          e.preventDefault();
+          const modal = document.getElementById(
+            "modal-new",
+          ) as HTMLDialogElement;
+          if (modal) modal.showModal();
+        } else if (isCmdOrCtrl && e.altKey && !e.shiftKey && key === "e") {
+          e.preventDefault();
+          const modal = document.getElementById(
+            "modal-export",
+          ) as HTMLDialogElement;
+          if (modal) modal.showModal();
+        } else if (isCmdOrCtrl && e.altKey && e.shiftKey && key === "e") {
+          e.preventDefault();
+          const modal = document.getElementById(
+            "modal-export-sprite-sheet",
+          ) as HTMLDialogElement;
+          if (modal) modal.showModal();
+        } else if (isCmdOrCtrl && e.altKey && !e.shiftKey && key === "r") {
+          e.preventDefault();
+          const modal = document.getElementById(
+            "modal-resize",
+          ) as HTMLDialogElement;
+          if (modal) modal.showModal();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "s") {
+          e.preventDefault();
+          exportToSpriteDrawFile();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "o") {
+          e.preventDefault();
+          const input = document.getElementById(
+            "spritedraw-file-input",
+          ) as HTMLInputElement;
+          if (input) input.click();
+        } else if (isCmdOrCtrl && !e.altKey && !e.shiftKey && key === "z") {
           e.preventDefault();
           undo();
         } else if (isCmdOrCtrl && !e.altKey && e.shiftKey && key === "z") {
