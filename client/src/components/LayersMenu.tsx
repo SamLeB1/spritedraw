@@ -78,9 +78,9 @@ export default function LayersMenu() {
         </Tooltip>
       </div>
       <div
-        className={`mb-2 max-h-24 overflow-x-hidden bg-neutral-900 ${layers.length > 3 && "overflow-y-scroll"}`}
+        className={`mb-2 max-h-28 overflow-x-hidden bg-neutral-900 ${layers.length > 4 && "overflow-y-scroll"}`}
       >
-        <div className="min-h-24">
+        <div className="min-h-28">
           {[...layers].reverse().map((layer) => (
             <div
               key={layer.id}
@@ -88,7 +88,7 @@ export default function LayersMenu() {
               onClick={() => selectLayer(layer.id)}
             >
               <button
-                className={`mr-2 cursor-pointer p-2 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
+                className={`mr-2 cursor-pointer p-1.5 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
                 type="button"
                 title="Visibility"
                 onClick={(e) => {
@@ -141,7 +141,7 @@ export default function LayersMenu() {
                 </p>
               )}
               <button
-                className={`ml-auto cursor-pointer p-2 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
+                className={`ml-auto cursor-pointer p-1.5 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
                 type="button"
                 title="Lock/unlock"
                 onClick={(e) => {

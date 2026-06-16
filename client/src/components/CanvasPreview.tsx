@@ -4,8 +4,8 @@ import useCompositeLayers from "../hooks/useCompositeLayers";
 import { CHECKER_LIGHT, CHECKER_DARK } from "../constants";
 import type { Rect } from "../types";
 
-const CONTAINER_WIDTH = 256;
-const CONTAINER_HEIGHT = 128;
+const CONTAINER_WIDTH = 224;
+const CONTAINER_HEIGHT = 160;
 
 export default function CanvasPreview() {
   const activeFrameId = useEditorStore((s) => s.activeFrameId);

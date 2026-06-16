@@ -9,11 +9,11 @@ export default function PaletteColors({ colors }: PaletteColorsProps) {
   const setSecondaryColor = useEditorStore((s) => s.setSecondaryColor);
 
   return (
-    <div className="grid max-h-32 grid-cols-6 gap-1 overflow-x-hidden overflow-y-scroll">
+    <div className="grid max-h-28 grid-cols-8 gap-1 overflow-x-hidden overflow-y-auto">
       {colors.map((color, i) => (
         <div
           key={i}
-          className="h-9 w-9 cursor-pointer hover:border hover:border-white"
+          className="aspect-square cursor-pointer hover:border-2 hover:border-white"
           style={{ backgroundColor: color }}
           title={color}
           onClick={() => setPrimaryColor(color)}
@@ -21,7 +21,7 @@ export default function PaletteColors({ colors }: PaletteColorsProps) {
             e.preventDefault();
             setSecondaryColor(color);
           }}
-        ></div>
+        />
       ))}
     </div>
   );

@@ -75,7 +75,7 @@ export default function ColorPaletteMenu() {
     <div>
       <div className="mb-2 flex items-center">
         <select
-          className="select select-sm mr-auto w-1/2"
+          className="select select-sm mr-2"
           id="palette-select"
           value={selectedPaletteId}
           onChange={(e) => selectPalette(e.target.value)}
