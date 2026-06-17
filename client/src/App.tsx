@@ -24,8 +24,8 @@ export default function App() {
         <TopBar />
         <div className="flex flex-grow overflow-hidden">
           <SideBarLeft />
-          <div className="relative flex flex-grow flex-col">
-            <div className="flex">
+          <div className="relative flex min-w-0 flex-grow flex-col">
+            <div className="flex overflow-x-auto bg-neutral-800">
               <ToolOptionsBar />
               <EditModePicker />
             </div>
