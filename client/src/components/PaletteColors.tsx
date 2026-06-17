@@ -1,3 +1,4 @@
+import tinycolor from "tinycolor2";
 import { useEditorStore } from "../store/editorStore";
 
 type PaletteColorsProps = {
@@ -13,7 +14,11 @@ export default function PaletteColors({ colors }: PaletteColorsProps) {
       {colors.map((color, i) => (
         <div
           key={i}
-          className="aspect-square cursor-pointer hover:border-2 hover:border-white"
+          className={`aspect-square cursor-pointer hover:border ${
+            tinycolor(color).isLight()
+              ? "hover:border-black"
+              : "hover:border-white"
+          }`}
           style={{ backgroundColor: color }}
           title={color}
           onClick={() => setPrimaryColor(color)}
