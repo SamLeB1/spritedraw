@@ -77,87 +77,83 @@ export default function LayersMenu() {
           </button>
         </Tooltip>
       </div>
-      <div
-        className={`mb-2 max-h-28 overflow-x-hidden bg-neutral-900 ${layers.length > 4 && "overflow-y-scroll"}`}
-      >
-        <div className="min-h-28">
-          {[...layers].reverse().map((layer) => (
-            <div
-              key={layer.id}
-              className={`flex cursor-pointer items-center ${activeLayerId === layer.id ? "bg-neutral-700" : "hover:bg-main-semi-dark"}`}
-              onClick={() => selectLayer(layer.id)}
+      <div className="mb-2 max-h-28 overflow-x-hidden overflow-y-auto bg-neutral-900">
+        {[...layers].reverse().map((layer) => (
+          <div
+            key={layer.id}
+            className={`flex cursor-pointer items-center ${activeLayerId === layer.id ? "bg-neutral-700" : "hover:bg-main-semi-dark"}`}
+            onClick={() => selectLayer(layer.id)}
+          >
+            <button
+              className={`mr-2 cursor-pointer p-1.5 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
+              type="button"
+              title="Visibility"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleLayerVisibility(layer.id);
+              }}
             >
-              <button
-                className={`mr-2 cursor-pointer p-1.5 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
-                type="button"
-                title="Visibility"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleLayerVisibility(layer.id);
-                }}
-              >
-                {layer.visible ? (
-                  <MdVisibility size={16} color="oklch(87% 0 0)" />
-                ) : (
-                  <MdVisibilityOff size={16} color="oklch(55.6% 0 0)" />
-                )}
-              </button>
-              {editingLayerId === layer.id ? (
-                <input
-                  className="mr-2 w-full bg-neutral-800 px-2 text-sm text-neutral-300 outline-none"
-                  value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                  onBlur={() => {
-                    if (!cancelRef.current) {
-                      const trimmed = editingName.trim();
-                      if (trimmed) renameLayer(layer.id, trimmed);
-                    }
-                    cancelRef.current = false;
-                    setEditingLayerId(null);
-                    setEditingName("");
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      (e.target as HTMLInputElement).blur();
-                    } else if (e.key === "Escape") {
-                      cancelRef.current = true;
-                      (e.target as HTMLInputElement).blur();
-                    }
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                  autoFocus
-                />
+              {layer.visible ? (
+                <MdVisibility size={16} color="oklch(87% 0 0)" />
               ) : (
-                <p
-                  className="mr-2 truncate text-sm text-neutral-300 select-none"
-                  title={layer.name}
-                  onDoubleClick={(e) => {
-                    e.stopPropagation();
-                    setEditingLayerId(layer.id);
-                    setEditingName(layer.name);
-                  }}
-                >
-                  {layer.name}
-                </p>
+                <MdVisibilityOff size={16} color="oklch(55.6% 0 0)" />
               )}
-              <button
-                className={`ml-auto cursor-pointer p-1.5 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
-                type="button"
-                title="Lock/unlock"
-                onClick={(e) => {
+            </button>
+            {editingLayerId === layer.id ? (
+              <input
+                className="mr-2 w-full bg-neutral-800 px-2 text-sm text-neutral-300 outline-none"
+                value={editingName}
+                onChange={(e) => setEditingName(e.target.value)}
+                onBlur={() => {
+                  if (!cancelRef.current) {
+                    const trimmed = editingName.trim();
+                    if (trimmed) renameLayer(layer.id, trimmed);
+                  }
+                  cancelRef.current = false;
+                  setEditingLayerId(null);
+                  setEditingName("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    (e.target as HTMLInputElement).blur();
+                  } else if (e.key === "Escape") {
+                    cancelRef.current = true;
+                    (e.target as HTMLInputElement).blur();
+                  }
+                }}
+                onClick={(e) => e.stopPropagation()}
+                autoFocus
+              />
+            ) : (
+              <p
+                className="mr-2 truncate text-sm text-neutral-300 select-none"
+                title={layer.name}
+                onDoubleClick={(e) => {
                   e.stopPropagation();
-                  toggleLayerLock(layer.id);
+                  setEditingLayerId(layer.id);
+                  setEditingName(layer.name);
                 }}
               >
-                {layer.locked ? (
-                  <MdLock size={16} color="oklch(87% 0 0)" />
-                ) : (
-                  <MdLockOpen size={16} color="oklch(55.6% 0 0)" />
-                )}
-              </button>
-            </div>
-          ))}
-        </div>
+                {layer.name}
+              </p>
+            )}
+            <button
+              className={`ml-auto cursor-pointer p-1.5 ${activeLayerId === layer.id ? "hover:bg-neutral-600" : "hover:bg-main-semi-light"}`}
+              type="button"
+              title="Lock/unlock"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleLayerLock(layer.id);
+              }}
+            >
+              {layer.locked ? (
+                <MdLock size={16} color="oklch(87% 0 0)" />
+              ) : (
+                <MdLockOpen size={16} color="oklch(55.6% 0 0)" />
+              )}
+            </button>
+          </div>
+        ))}
       </div>
       <div className="flex items-center">
         <Tooltip content="New layer" side="bottom">
