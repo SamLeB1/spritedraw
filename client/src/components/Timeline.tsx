@@ -21,7 +21,7 @@ import FpsInput from "./FpsInput";
 import Tooltip from "./Tooltip";
 import OnionSkinSettingsWindow from "./OnionSkinSettingsWindow";
 
-export default function FramesPanel() {
+export default function Timeline() {
   const frames = useEditorStore((s) => s.frames);
   const activeFrameId = useEditorStore((s) => s.activeFrameId);
   const isPlayingAnimation = useEditorStore((s) => s.isPlayingAnimation);
@@ -131,8 +131,8 @@ export default function FramesPanel() {
               </button>
             </Tooltip>
           </div>
-          <div className="flex items-center" title="Toggle frames panel">
-            <span className="mr-1 text-sm font-medium">Frames</span>
+          <div className="flex items-center" title="Toggle timeline (Alt+T)">
+            <span className="mr-1 text-sm font-medium">Timeline</span>
             {isOpen ? (
               <MdArrowDropDown size={20} />
             ) : (

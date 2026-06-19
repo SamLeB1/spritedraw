@@ -49,7 +49,7 @@ export default function BottomBar() {
             </button>
           </Tooltip>
         )}
-        <Tooltip content="Reset zoom (Ctrl + 0)" side="top">
+        <Tooltip content="Reset zoom (0)" side="top">
           <span
             className="cursor-pointer rounded-lg p-1 text-sm text-neutral-300 hover:bg-neutral-600"
             onClick={resetZoom}
@@ -77,13 +77,13 @@ export default function BottomBar() {
       </div>
       <div className="flex items-center">
         {isEmptyUndoHistory ? (
-          <Tooltip content="Undo (Ctrl + Z)" side="top">
+          <Tooltip content="Undo (Ctrl+Z)" side="top">
             <button className="rounded-lg p-1" type="button">
               <MdUndo size={20} color="oklch(55.6% 0 0)" />
             </button>
           </Tooltip>
         ) : (
-          <Tooltip content="Undo (Ctrl + Z)" side="top">
+          <Tooltip content="Undo (Ctrl+Z)" side="top">
             <button
               className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
               type="button"
@@ -94,13 +94,13 @@ export default function BottomBar() {
           </Tooltip>
         )}
         {isEmptyRedoHistory ? (
-          <Tooltip content="Redo (Ctrl + Y)" side="top">
+          <Tooltip content="Redo (Ctrl+Y)" side="top">
             <button className="rounded-lg p-1" type="button">
               <MdRedo size={20} color="oklch(55.6% 0 0)" />
             </button>
           </Tooltip>
         ) : (
-          <Tooltip content="Redo (Ctrl + Y)" side="top">
+          <Tooltip content="Redo (Ctrl+Y)" side="top">
             <button
               className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
               type="button"

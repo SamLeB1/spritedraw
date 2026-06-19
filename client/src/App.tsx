@@ -7,7 +7,7 @@ import SideBarRight from "./components/SideBarRight";
 import BottomBar from "./components/BottomBar";
 import ToolOptionsBar from "./components/ToolOptionsBar";
 import EditModePicker from "./components/EditModePicker";
-import FramesPanel from "./components/FramesPanel";
+import Timeline from "./components/Timeline";
 
 export default function App() {
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function App() {
               <EditModePicker />
             </div>
             <Canvas />
-            <FramesPanel />
+            <Timeline />
           </div>
           <SideBarRight />
         </div>
