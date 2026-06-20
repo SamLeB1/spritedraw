@@ -3,9 +3,10 @@ import useClickOutside from "../hooks/useClickOutside";
 import BtnFile from "./BtnFile";
 import BtnEdit from "./BtnEdit";
 import BtnSprite from "./BtnSprite";
+import BtnView from "./BtnView";
 import logo from "../assets/images/logo.png";
 
-type Tab = "file" | "edit" | "sprite" | null;
+type Tab = "file" | "edit" | "sprite" | "view" | null;
 
 export default function TopBar() {
   const [openTab, setOpenTab] = useState<Tab>(null);
@@ -45,6 +46,12 @@ export default function TopBar() {
           isOpen={openTab === "sprite"}
           onToggle={() => handleToggle("sprite")}
           onHoverOpen={() => handleHoverOpen("sprite")}
+          onClose={() => setOpenTab(null)}
+        />
+        <BtnView
+          isOpen={openTab === "view"}
+          onToggle={() => handleToggle("view")}
+          onHoverOpen={() => handleHoverOpen("view")}
           onClose={() => setOpenTab(null)}
         />
       </div>
