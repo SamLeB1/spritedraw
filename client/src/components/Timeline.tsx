@@ -44,6 +44,7 @@ export default function Timeline() {
     (frame) => frame.id === activeFrameId,
   );
 
+  if (!showTimeline && !showTimelineBar) return null;
   return (
     <>
       <div className={`w-full ${showTimeline && "absolute bottom-0"}`}>
@@ -244,7 +245,7 @@ export default function Timeline() {
           </div>
         )}
       </div>
-      {showTimeline && <div className="h-9 w-full" />}
+      {showTimeline && showTimelineBar && <div className="h-9 w-full" />}
       {showOnionSkinSettingsWindow && (
         <OnionSkinSettingsWindow
           onClose={() => setShowOnionSkinSettingsWindow(false)}
