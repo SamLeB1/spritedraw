@@ -26,8 +26,11 @@ export default function Timeline() {
   const activeFrameId = useEditorStore((s) => s.activeFrameId);
   const isPlayingAnimation = useEditorStore((s) => s.isPlayingAnimation);
   const showOnionSkin = useEditorStore((s) => s.showOnionSkin);
+  const showTimeline = useEditorStore((s) => s.showTimeline);
+  const showTimelineBar = useEditorStore((s) => s.showTimelineBar);
   const setIsPlayingAnimation = useEditorStore((s) => s.setIsPlayingAnimation);
   const setShowOnionSkin = useEditorStore((s) => s.setShowOnionSkin);
+  const setShowTimeline = useEditorStore((s) => s.setShowTimeline);
   const selectFrame = useEditorStore((s) => s.selectFrame);
   const newFrame = useEditorStore((s) => s.newFrame);
   const duplicateFrame = useEditorStore((s) => s.duplicateFrame);
@@ -35,7 +38,6 @@ export default function Timeline() {
   const moveFrameLeft = useEditorStore((s) => s.moveFrameLeft);
   const moveFrameRight = useEditorStore((s) => s.moveFrameRight);
   useAnimationPlayback();
-  const [isOpen, setIsOpen] = useState(false);
   const [showOnionSkinSettingsWindow, setShowOnionSkinSettingsWindow] =
     useState(false);
   const activeFrameIndex = frames.findIndex(
@@ -44,10 +46,10 @@ export default function Timeline() {
 
   return (
     <>
-      <div className={`w-full ${isOpen && "absolute bottom-0"}`}>
+      <div className={`w-full ${showTimeline && "absolute bottom-0"}`}>
         <div
           className="bg-main-semi-light flex min-h-9 cursor-pointer items-center justify-between border-t border-neutral-400 px-4 hover:bg-neutral-700"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setShowTimeline(!showTimeline)}
         >
           <div className="flex items-center">
             <span className="mr-2 text-sm text-neutral-300">
@@ -133,14 +135,14 @@ export default function Timeline() {
           </div>
           <div className="flex items-center" title="Toggle timeline (Alt+T)">
             <span className="mr-1 text-sm font-medium">Timeline</span>
-            {isOpen ? (
+            {showTimeline ? (
               <MdArrowDropDown size={20} />
             ) : (
               <MdArrowDropUp size={20} />
             )}
           </div>
         </div>
-        {isOpen && (
+        {showTimeline && (
           <div className="bg-neutral-900">
             <div className="flex h-10 items-center p-2">
               <Tooltip content="New frame" side="top">
@@ -242,7 +244,7 @@ export default function Timeline() {
           </div>
         )}
       </div>
-      {isOpen && <div className="h-9 w-full" />}
+      {showTimeline && <div className="h-9 w-full" />}
       {showOnionSkinSettingsWindow && (
         <OnionSkinSettingsWindow
           onClose={() => setShowOnionSkinSettingsWindow(false)}

@@ -310,6 +310,8 @@ type EditorState = {
   lastDrawPos: { x: number; y: number } | null;
   mousePos: { x: number; y: number };
   clipboard: Clipboard | null;
+  showTimeline: boolean;
+  showTimelineBar: boolean;
   setEditAllLayers: (all: boolean) => void;
   setEditAllFrames: (all: boolean) => void;
   setGridSize: (gridSize: { x: number; y: number }) => void;
@@ -358,6 +360,8 @@ type EditorState = {
   setMoveStartPos: (pos: { x: number; y: number } | null) => void;
   setMoveOffset: (offset: { x: number; y: number } | null) => void;
   setMousePos: (mousePos: { x: number; y: number }) => void;
+  setShowTimeline: (show: boolean) => void;
+  setShowTimelineBar: (show: boolean) => void;
   discardPendingActions: () => void;
   applyPendingActions: () => void;
   selectTool: (tool: Tool) => void;
@@ -530,6 +534,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   lastDrawPos: null,
   mousePos: { x: 0, y: 0 },
   clipboard: null,
+  showTimeline: false,
+  showTimelineBar: true,
   setEditAllLayers: (all) => set({ editAllLayers: all }),
   setEditAllFrames: (all) => set({ editAllFrames: all }),
   setGridSize: (gridSize) => set({ gridSize }),
@@ -578,6 +584,8 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setMoveStartPos: (pos) => set({ moveStartPos: pos }),
   setMoveOffset: (offset) => set({ moveOffset: offset }),
   setMousePos: (mousePos) => set({ mousePos }),
+  setShowTimeline: (show) => set({ showTimeline: show }),
+  setShowTimelineBar: (show) => set({ showTimelineBar: show }),
   discardPendingActions: () =>
     set((state) => {
       const {

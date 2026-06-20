@@ -3,6 +3,8 @@ import { useEditorStore } from "../store/editorStore";
 import useCanvasZoom from "./useCanvasZoom";
 
 export default function useKeyboardShortcuts() {
+  const showTimeline = useEditorStore((s) => s.showTimeline);
+  const setShowTimeline = useEditorStore((s) => s.setShowTimeline);
   const selectTool = useEditorStore((s) => s.selectTool);
   const undo = useEditorStore((s) => s.undo);
   const redo = useEditorStore((s) => s.redo);
@@ -28,7 +30,10 @@ export default function useKeyboardShortcuts() {
       const isCmdOrCtrl = e.metaKey || e.ctrlKey;
       const key = e.key.toLowerCase();
       if (isCmdOrCtrl || e.altKey || e.shiftKey) {
-        if (isCmdOrCtrl && e.altKey && !e.shiftKey && key === "n") {
+        if (!isCmdOrCtrl && e.altKey && !e.shiftKey && key === "t") {
+          e.preventDefault();
+          setShowTimeline(!showTimeline);
+        } else if (isCmdOrCtrl && e.altKey && !e.shiftKey && key === "n") {
           e.preventDefault();
           const modal = document.getElementById(
             "modal-new",
@@ -127,14 +132,17 @@ export default function useKeyboardShortcuts() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [
+    showTimeline,
+    setShowTimeline,
     selectTool,
     undo,
     redo,
     cut,
     copy,
     paste,
+    clearEdit,
+    exportToSpriteDrawFile,
     zoomStepTowardsCenter,
     resetZoom,
-    clearEdit,
   ]);
 }
