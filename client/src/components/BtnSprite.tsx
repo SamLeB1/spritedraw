@@ -73,7 +73,7 @@ export default function BtnSprite({
               onMouseLeave={() => setIsRotateOpen(false)}
             >
               <button
-                className="flex w-full cursor-pointer items-center justify-between py-1 pl-3 text-sm hover:bg-zinc-500"
+                className="flex w-full cursor-pointer items-center justify-between py-1 pl-6 text-sm hover:bg-zinc-500"
                 type="button"
               >
                 Rotate

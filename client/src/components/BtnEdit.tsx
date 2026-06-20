@@ -119,7 +119,7 @@ export default function BtnEdit({
               onMouseLeave={() => setIsRotateOpen(false)}
             >
               <button
-                className="flex w-full cursor-pointer items-center justify-between py-1 pl-3 text-sm hover:bg-zinc-500"
+                className="flex w-full cursor-pointer items-center justify-between py-1 pl-6 text-sm hover:bg-zinc-500"
                 type="button"
               >
                 Rotate
@@ -156,7 +156,7 @@ export default function BtnEdit({
             </div>
           ) : (
             <button
-              className="flex w-full items-center justify-between py-1 pl-3 text-sm text-zinc-400"
+              className="flex w-full items-center justify-between py-1 pl-6 text-sm text-zinc-400"
               type="button"
               disabled
             >
