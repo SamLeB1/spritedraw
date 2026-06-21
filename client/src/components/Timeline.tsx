@@ -134,13 +134,44 @@ export default function Timeline() {
               </button>
             </Tooltip>
           </div>
-          <div className="flex items-center" title="Toggle timeline (Alt+T)">
-            <span className="mr-1 text-sm font-medium">Timeline</span>
-            {showTimeline ? (
-              <MdArrowDropDown size={20} />
-            ) : (
-              <MdArrowDropUp size={20} />
-            )}
+          <div className="flex items-center">
+            <div
+              className="mr-4 flex items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FpsInput className="mr-2" />
+              <Tooltip
+                content={
+                  showOnionSkin ? "Disable onion skin" : "Enable onion skin"
+                }
+                side="top"
+              >
+                <button
+                  className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
+                  type="button"
+                  onClick={() => setShowOnionSkin(!showOnionSkin)}
+                >
+                  <div className="h-5 w-5 bg-white" />
+                </button>
+              </Tooltip>
+              <Tooltip content="Onion skin settings" side="top">
+                <button
+                  className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
+                  type="button"
+                  onClick={() => setShowOnionSkinSettingsWindow(true)}
+                >
+                  <div className="h-5 w-5 bg-white" />
+                </button>
+              </Tooltip>
+            </div>
+            <div className="flex items-center" title="Toggle timeline (Alt+T)">
+              <span className="mr-1 text-sm font-medium">Timeline</span>
+              {showTimeline ? (
+                <MdArrowDropDown size={20} />
+              ) : (
+                <MdArrowDropUp size={20} />
+              )}
+            </div>
           </div>
         </div>
         {showTimeline && (
@@ -194,37 +225,13 @@ export default function Timeline() {
               </Tooltip>
               <Tooltip content="Move frame right" side="top">
                 <button
-                  className="mr-auto cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
+                  className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
                   type="button"
                   onClick={() => {
                     if (activeFrameIndex < frames.length - 1) moveFrameRight();
                   }}
                 >
                   <MdArrowForward size={20} />
-                </button>
-              </Tooltip>
-              <FpsInput className="mr-2" />
-              <Tooltip
-                content={
-                  showOnionSkin ? "Disable onion skin" : "Enable onion skin"
-                }
-                side="top"
-              >
-                <button
-                  className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
-                  type="button"
-                  onClick={() => setShowOnionSkin(!showOnionSkin)}
-                >
-                  <div className="h-5 w-5 bg-white" />
-                </button>
-              </Tooltip>
-              <Tooltip content="Onion skin settings" side="top">
-                <button
-                  className="cursor-pointer rounded-lg p-1 hover:bg-neutral-600"
-                  type="button"
-                  onClick={() => setShowOnionSkinSettingsWindow(true)}
-                >
-                  <div className="h-5 w-5 bg-white" />
                 </button>
               </Tooltip>
             </div>
