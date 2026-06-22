@@ -6,6 +6,7 @@ import {
   MdChevronRight,
   MdSkipPrevious,
   MdSkipNext,
+  MdSettingsInputComponent,
   MdArrowDropUp,
   MdArrowDropDown,
   MdAdd,
@@ -14,6 +15,7 @@ import {
   MdArrowBack,
   MdArrowForward,
 } from "react-icons/md";
+import OnionIcon from "../assets/icons/onion.svg?react";
 import { useEditorStore } from "../store/editorStore";
 import useAnimationPlayback from "../hooks/useAnimationPlayback";
 import Frame from "./Frame";
@@ -151,7 +153,9 @@ export default function Timeline() {
                   type="button"
                   onClick={() => setShowOnionSkin(!showOnionSkin)}
                 >
-                  <div className="h-5 w-5 bg-white" />
+                  <OnionIcon
+                    className={`h-5 w-5 ${showOnionSkin ? "text-blue-500" : "text-white"}`}
+                  />
                 </button>
               </Tooltip>
               <Tooltip content="Onion skin settings" side="top">
@@ -160,7 +164,7 @@ export default function Timeline() {
                   type="button"
                   onClick={() => setShowOnionSkinSettingsWindow(true)}
                 >
-                  <div className="h-5 w-5 bg-white" />
+                  <MdSettingsInputComponent size={20} />
                 </button>
               </Tooltip>
             </div>
