@@ -78,6 +78,7 @@ export default function Canvas() {
   const lassoPath = useEditorStore((s) => s.lassoPath);
   const moveStartPos = useEditorStore((s) => s.moveStartPos);
   const moveOffset = useEditorStore((s) => s.moveOffset);
+  const mousePos = useEditorStore((s) => s.mousePos);
   const setVisibleGridSize = useEditorStore((s) => s.setVisibleGridSize);
   const setPanOffset = useEditorStore((s) => s.setPanOffset);
   const setPrimaryColor = useEditorStore((s) => s.setPrimaryColor);
@@ -1254,7 +1255,7 @@ export default function Canvas() {
 
   return (
     <div
-      className="flex flex-grow items-center justify-center overflow-hidden"
+      className="relative flex flex-grow items-center justify-center overflow-hidden"
       style={{
         ...(showMoveCursor && { cursor: "move" }),
         ...(!selectionAction &&
@@ -1269,6 +1270,14 @@ export default function Canvas() {
       onMouseMove={updateMousePos}
       onContextMenu={(e) => e.preventDefault()}
     >
+      <div className="absolute bottom-2 left-2 bg-black/50 px-2 py-1 text-sm select-none">
+        <span className="mr-2">
+          [{gridSize.x}x{gridSize.y}]
+        </span>
+        <span>
+          {mousePos.x}:{mousePos.y}
+        </span>
+      </div>
       <canvas
         className="bg-white"
         ref={canvasRef}
