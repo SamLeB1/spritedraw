@@ -312,6 +312,7 @@ type EditorState = {
   clipboard: Clipboard | null;
   showTimeline: boolean;
   showTimelineBar: boolean;
+  showInfo: boolean;
   setEditAllLayers: (all: boolean) => void;
   setEditAllFrames: (all: boolean) => void;
   setGridSize: (gridSize: { x: number; y: number }) => void;
@@ -362,6 +363,7 @@ type EditorState = {
   setMousePos: (mousePos: { x: number; y: number }) => void;
   setShowTimeline: (show: boolean) => void;
   setShowTimelineBar: (show: boolean) => void;
+  setShowInfo: (show: boolean) => void;
   discardPendingActions: () => void;
   applyPendingActions: () => void;
   selectTool: (tool: Tool) => void;
@@ -536,6 +538,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   clipboard: null,
   showTimeline: false,
   showTimelineBar: true,
+  showInfo: true,
   setEditAllLayers: (all) => set({ editAllLayers: all }),
   setEditAllFrames: (all) => set({ editAllFrames: all }),
   setGridSize: (gridSize) => set({ gridSize }),
@@ -586,6 +589,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setMousePos: (mousePos) => set({ mousePos }),
   setShowTimeline: (show) => set({ showTimeline: show }),
   setShowTimelineBar: (show) => set({ showTimelineBar: show }),
+  setShowInfo: (show) => set({ showInfo: show }),
   discardPendingActions: () =>
     set((state) => {
       const {

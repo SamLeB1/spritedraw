@@ -4,7 +4,9 @@ import useCanvasZoom from "./useCanvasZoom";
 
 export default function useKeyboardShortcuts() {
   const showTimeline = useEditorStore((s) => s.showTimeline);
+  const showInfo = useEditorStore((s) => s.showInfo);
   const setShowTimeline = useEditorStore((s) => s.setShowTimeline);
+  const setShowInfo = useEditorStore((s) => s.setShowInfo);
   const selectTool = useEditorStore((s) => s.selectTool);
   const undo = useEditorStore((s) => s.undo);
   const redo = useEditorStore((s) => s.redo);
@@ -125,6 +127,9 @@ export default function useKeyboardShortcuts() {
         } else if (key === "delete" || key === "backspace") {
           e.preventDefault();
           clearEdit();
+        } else if (key === "i") {
+          e.preventDefault();
+          setShowInfo(!showInfo);
         }
       }
     }
@@ -133,7 +138,9 @@ export default function useKeyboardShortcuts() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [
     showTimeline,
+    showInfo,
     setShowTimeline,
+    setShowInfo,
     selectTool,
     undo,
     redo,

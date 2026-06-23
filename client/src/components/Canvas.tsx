@@ -79,6 +79,7 @@ export default function Canvas() {
   const moveStartPos = useEditorStore((s) => s.moveStartPos);
   const moveOffset = useEditorStore((s) => s.moveOffset);
   const mousePos = useEditorStore((s) => s.mousePos);
+  const showInfo = useEditorStore((s) => s.showInfo);
   const setVisibleGridSize = useEditorStore((s) => s.setVisibleGridSize);
   const setPanOffset = useEditorStore((s) => s.setPanOffset);
   const setPrimaryColor = useEditorStore((s) => s.setPrimaryColor);
@@ -1270,14 +1271,16 @@ export default function Canvas() {
       onMouseMove={updateMousePos}
       onContextMenu={(e) => e.preventDefault()}
     >
-      <div className="absolute bottom-2 left-2 bg-black/50 px-2 py-1 text-sm select-none">
-        <span className="mr-2">
-          [{gridSize.x}x{gridSize.y}]
-        </span>
-        <span>
-          {mousePos.x}:{mousePos.y}
-        </span>
-      </div>
+      {showInfo && (
+        <div className="absolute bottom-2 left-2 bg-black/50 px-2 py-1 text-sm select-none">
+          <span className="mr-2">
+            [{gridSize.x}x{gridSize.y}]
+          </span>
+          <span>
+            {mousePos.x}:{mousePos.y}
+          </span>
+        </div>
+      )}
       <canvas
         className="bg-white"
         ref={canvasRef}

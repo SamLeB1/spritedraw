@@ -20,8 +20,10 @@ export default function BtnView({
   const zoomLevel = useEditorStore((s) => s.zoomLevel);
   const showTimeline = useEditorStore((s) => s.showTimeline);
   const showTimelineBar = useEditorStore((s) => s.showTimelineBar);
+  const showInfo = useEditorStore((s) => s.showInfo);
   const setShowTimeline = useEditorStore((s) => s.setShowTimeline);
   const setShowTimelineBar = useEditorStore((s) => s.setShowTimelineBar);
+  const setShowInfo = useEditorStore((s) => s.setShowInfo);
   const { zoomStepTowardsCenter, resetZoom } = useCanvasZoom();
 
   return (
@@ -80,6 +82,15 @@ export default function BtnView({
               setShowTimelineBar(!showTimelineBar);
             }}
             checked={showTimelineBar}
+          />
+          <MenuItem
+            item="Show info"
+            onClick={() => {
+              onClose();
+              setShowInfo(!showInfo);
+            }}
+            shortcut="I"
+            checked={showInfo}
           />
         </div>
       )}
