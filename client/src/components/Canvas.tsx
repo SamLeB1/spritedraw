@@ -1272,13 +1272,14 @@ export default function Canvas() {
       onContextMenu={(e) => e.preventDefault()}
     >
       {showInfo && (
-        <div className="absolute bottom-2 left-2 bg-black/50 px-2 py-1 text-sm select-none">
+        <div className="absolute bottom-2 left-2 bg-black/50 px-2 py-1 text-sm text-nowrap select-none">
           <span className="mr-2">
             [{gridSize.x}x{gridSize.y}]
           </span>
-          <span>
+          <span className="mr-2">
             {mousePos.x}:{mousePos.y}
           </span>
+          <span>Hide (I)</span>
         </div>
       )}
       <canvas

@@ -22,7 +22,7 @@ export default function TopBar() {
   }
 
   return (
-    <div className="flex h-9 items-center bg-zinc-700 px-4">
+    <div className="flex min-h-9 items-center overflow-x-auto bg-zinc-700 px-4">
       <img
         className="mr-4 h-5"
         style={{ imageRendering: "pixelated" }}

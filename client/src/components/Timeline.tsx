@@ -51,11 +51,11 @@ export default function Timeline() {
     <>
       <div className={`w-full ${showTimeline && "absolute bottom-0"}`}>
         <div
-          className="bg-main-semi-light flex min-h-9 cursor-pointer items-center justify-between border-t border-neutral-400 px-4 hover:bg-neutral-700"
+          className="bg-main-semi-light flex min-h-9 cursor-pointer items-center justify-between overflow-x-auto border-t border-neutral-400 px-4 hover:bg-neutral-700"
           onClick={() => setShowTimeline(!showTimeline)}
         >
-          <div className="flex items-center">
-            <span className="mr-2 text-sm text-neutral-300">
+          <div className="mr-2 flex items-center">
+            <span className="mr-2 text-sm text-nowrap text-neutral-300">
               Frame: {activeFrameIndex + 1}/{frames.length}
             </span>
             <Tooltip content="Go to first frame" side="top">
