@@ -206,7 +206,7 @@ export default function CanvasPreview() {
 
   return (
     <div
-      className="mb-4 flex items-center justify-center bg-black"
+      className="mb-1 flex items-center justify-center bg-black"
       style={{ width: CONTAINER_WIDTH, height: CONTAINER_HEIGHT }}
     >
       <canvas
