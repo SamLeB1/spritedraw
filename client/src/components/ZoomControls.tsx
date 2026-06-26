@@ -13,7 +13,7 @@ export default function ZoomControls() {
       {zoomLevel > MIN_ZOOM_LEVEL ? (
         <Tooltip content="Zoom out (-)" side="bottom">
           <button
-            className="cursor-pointer rounded-lg p-1 text-neutral-300 hover:bg-neutral-600"
+            className="mr-1 cursor-pointer rounded-lg p-1 text-neutral-300 hover:bg-neutral-600"
             type="button"
             onClick={() => zoomStepTowardsCenter(false)}
           >
@@ -23,7 +23,7 @@ export default function ZoomControls() {
       ) : (
         <Tooltip content="Zoom out (-)" side="bottom">
           <button
-            className="rounded-lg p-1 text-neutral-500"
+            className="mr-1 rounded-lg p-1 text-neutral-500"
             type="button"
             disabled
           >
@@ -31,6 +31,10 @@ export default function ZoomControls() {
           </button>
         </Tooltip>
       )}
+      <input
+        className="range range-primary range-xs mr-1 w-28 bg-neutral-600"
+        type="range"
+      />
       {zoomLevel < MAX_ZOOM_LEVEL ? (
         <Tooltip content="Zoom in (+)" side="bottom">
           <button
@@ -53,7 +57,10 @@ export default function ZoomControls() {
         </Tooltip>
       )}
       <Tooltip content="Reset zoom (0)" side="bottom">
-        <span className="cursor-pointer p-1 text-sm" onClick={resetZoom}>
+        <span
+          className="cursor-pointer p-1 text-xs text-neutral-300"
+          onClick={resetZoom}
+        >
           {Math.round(zoomLevel * 100)}%
         </span>
       </Tooltip>
